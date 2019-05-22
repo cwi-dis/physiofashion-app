@@ -52,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 port.open(connection);
                 port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+                port.setDTR(true);
+                port.setRTS(true);
 
                 while (true) {
                     try {
                         byte[] data = {'a'};
-                        int bytesWritten = port.write(data, 10);
+                        int bytesWritten = port.write(data, 10000);
 
                         Log.d(TAG, "Bytes written " + bytesWritten);
                     } catch (IOException e) {
