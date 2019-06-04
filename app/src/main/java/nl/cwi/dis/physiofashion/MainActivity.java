@@ -12,9 +12,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
+
+import nl.cwi.dis.physiofashion.experiment.Trial;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
@@ -63,16 +75,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<File> readAudioFiles() {
         File storage = Environment.getExternalStorageDirectory();
-        File videoDir = new File(storage, getResources().getString(R.string.app_name) + "/");
+        File audioDir = new File(storage, getResources().getString(R.string.app_name) + "/");
 
-        if (!videoDir.exists()) {
+        if (!audioDir.exists()) {
             Log.d(LOG_TAG, "App directory does not exist");
-            Log.d(LOG_TAG, "Attempting to create directory: " + videoDir.mkdirs());
+            Log.d(LOG_TAG, "Attempting to create directory: " + audioDir.mkdirs());
 
             return new ArrayList<>();
         }
 
-        File[] videoFiles = videoDir.listFiles((dir, name) ->
+        File[] videoFiles = audioDir.listFiles((dir, name) ->
             name.endsWith(".mp4") || name.endsWith(".wav")
         );
 
@@ -80,5 +92,54 @@ public class MainActivity extends AppCompatActivity {
         Arrays.sort(videoFiles);
 
         return new ArrayList<>(Arrays.asList(videoFiles));
+    }
+
+    private ArrayList<Trial> readExperimentData() {
+        File storage = Environment.getExternalStorageDirectory();
+        File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
+
+        if (!experimentDir.exists()) {
+            Log.d(LOG_TAG, "App directory does not exist");
+            Log.d(LOG_TAG, "Attempting to create directory: " + experimentDir.mkdirs());
+
+            return new ArrayList<>();
+        }
+
+        File[] jsonFiles = experimentDir.listFiles((dir, name) ->
+                name.endsWith(".json")
+        );
+
+        if (jsonFiles.length == 0) {
+            Log.d(LOG_TAG, "No experiment file found");
+
+            return new ArrayList<>();
+        }
+
+        try {
+            File experimentFile = jsonFiles[0];
+            Scanner scanner = new Scanner(experimentFile);
+            String fileContents = scanner.next();
+
+            JSONObject experiment = new JSONObject(fileContents);
+            JSONArray trials = experiment.getJSONArray("trials");
+
+            ArrayList<Trial> trialsList = new ArrayList<>(trials.length());
+
+            for (int i=0; i<trials.length(); i++) {
+                trialsList.add(new Trial(
+                        false,
+                        ((JSONObject)trials.get(i)).getString("condition"),
+                        ((JSONObject)trials.get(i)).getString("intensity")
+                ));
+            }
+
+            return trialsList;
+        } catch (FileNotFoundException fnf) {
+            Log.e(LOG_TAG, "Experiment file not found: " + fnf);
+            return new ArrayList<>();
+        } catch (JSONException je) {
+            Log.e(LOG_TAG, "Could not parse JSON: " + je);
+            return new ArrayList<>();
+        }
     }
 }
