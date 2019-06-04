@@ -2,6 +2,7 @@ package nl.cwi.dis.physiofashion;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
@@ -54,5 +59,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
 
+    }
+
+    private ArrayList<File> readAudioFiles() {
+        File storage = Environment.getExternalStorageDirectory();
+        File videoDir = new File(storage, getResources().getString(R.string.app_name) + "/");
+
+        if (!videoDir.exists()) {
+            Log.d(LOG_TAG, "App directory does not exist");
+            Log.d(LOG_TAG, "Attempting to create directory: " + videoDir.mkdirs());
+
+            return new ArrayList<>();
+        }
+
+        File[] videoFiles = videoDir.listFiles((dir, name) ->
+            name.endsWith(".mp4") || name.endsWith(".wav")
+        );
+
+        Log.d(LOG_TAG, "Video files: " + videoFiles.length);
+        Arrays.sort(videoFiles);
+
+        return new ArrayList<>(Arrays.asList(videoFiles));
     }
 }
