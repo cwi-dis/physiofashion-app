@@ -20,23 +20,27 @@ public class Experiment implements Parcelable {
 
     private ArrayList<Trial> trials;
     private String hostname;
+    private String participantId;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
         in.readTypedList(this.trials, Trial.CREATOR);
 
         this.hostname = in.readString();
+        this.participantId = in.readString();
     }
 
-    public Experiment(ArrayList<Trial> trials, String hostname) {
+    public Experiment(ArrayList<Trial> trials, String hostname, String participantId) {
         this.trials = trials;
         this.hostname = hostname;
+        this.participantId = participantId;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(trials);
         dest.writeString(hostname);
+        dest.writeString(participantId);
     }
 
     @Override
@@ -50,5 +54,9 @@ public class Experiment implements Parcelable {
 
     public String getHostname() {
         return hostname;
+    }
+
+    public String getParticipantId() {
+        return participantId;
     }
 }
