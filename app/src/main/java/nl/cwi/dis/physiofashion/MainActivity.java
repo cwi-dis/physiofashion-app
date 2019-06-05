@@ -1,6 +1,7 @@
 package nl.cwi.dis.physiofashion;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -10,6 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import nl.cwi.dis.physiofashion.experiment.Experiment;
 import nl.cwi.dis.physiofashion.experiment.Trial;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +68,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
+        Button nextButton = findViewById(R.id.main_next_button);
 
+        JSONObject experimentData = this.getExperimentJSON();
+        Experiment experiment = new Experiment(
+                this.parseExperimentData(experimentData),
+                this.parseHostName(experimentData)
+        );
+
+        nextButton.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, TemperatureChangeActivity.class);
+            intent.putExtra("experiment", experiment);
+
+            startActivity(intent)
+        });
     }
 
     private ArrayList<File> readAudioFiles() {
@@ -123,16 +141,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String parseHostName() {
-        JSONObject experiment = this.getExperimentJSON();
+    private String parseHostName(JSONObject experiment) {
         return experiment.optString("hostname", null);
     }
 
-    private ArrayList<Trial> parseExperimentData() {
+    private ArrayList<Trial> parseExperimentData(JSONObject experiment) {
         try {
-            JSONObject experiment = this.getExperimentJSON();
             JSONArray trials = experiment.getJSONArray("trials");
-
             ArrayList<Trial> trialsList = new ArrayList<>(trials.length());
 
             for (int i=0; i<trials.length(); i++) {
