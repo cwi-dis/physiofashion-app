@@ -168,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
         return experiment.optString("hostname", null);
     }
 
+    private int parseRepetitions(JSONObject experiment) {
+        return experiment.optInt("repetitions", 1);
+    }
+
     private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
