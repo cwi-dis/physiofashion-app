@@ -11,6 +11,10 @@ public class Trial {
         this.intensity = intensity;
     }
 
+    public boolean hasAudio() {
+        return audioFile != null;
+    }
+
     public String getAudioFile() {
         return audioFile;
     }
