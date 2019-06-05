@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +35,14 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         experiment = intent.getParcelableExtra("experiment");
         this.logCurrentTrial();
+
+        final Button feelItButton = findViewById(R.id.feel_it);
+        feelItButton.setOnClickListener((View v) -> {
+            Intent ratingIntent = new Intent(TemperatureChangeActivity.this, RatingActivity.class);
+            ratingIntent.putExtra("experiment", experiment);
+
+            startActivity(ratingIntent);
+        });
 
         queue = Volley.newRequestQueue(this);
         this.setBaselineTemperature();
