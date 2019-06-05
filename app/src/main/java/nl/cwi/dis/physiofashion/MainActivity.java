@@ -124,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private String parseHostName() {
+        JSONObject experiment = this.getExperimentJSON();
+        return experiment.optString("hostname", null);
+    }
+
     private ArrayList<Trial> parseExperimentData() {
         try {
             JSONObject experiment = this.getExperimentJSON();
