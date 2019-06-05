@@ -1,18 +1,18 @@
 package nl.cwi.dis.physiofashion.experiment;
 
 public class Trial {
-    private boolean fabricOnSkin;
+    private String audioFile;
     private String condition;
     private String intensity;
 
-    public Trial(boolean fabricOnSkin, String condition, String intensity) {
-        this.fabricOnSkin = fabricOnSkin;
+    public Trial(String audioFile, String condition, String intensity) {
+        this.audioFile = audioFile;
         this.condition = condition;
         this.intensity = intensity;
     }
 
-    public boolean isFabricOnSkin() {
-        return fabricOnSkin;
+    public String getAudioFile() {
+        return audioFile;
     }
 
     public String getIntensity() {
