@@ -70,4 +70,32 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         queue.add(baselineRequest);
     }
+
+    private void setTargetTemperature() {
+        Trial currentTrial = experiment.getCurrentTrial();
+
+        int tempChange = (currentTrial.getCondition().compareTo("warm") == 0) ? currentTrial.getIntensity() : -currentTrial.getIntensity();
+        int targetTemp = BASELINE_TEMP + tempChange;
+
+        Log.d(LOG_TAG, "Setting target temperature to " + targetTemp);
+
+        String url = experiment.getHostname() + "/api/setpoint";
+        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response -> {
+            this.pauseForStimulus(10);
+        }, error -> {
+            Log.e(LOG_TAG, "Could not set target setpoint: " + error);
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public byte[] getBody() {
+                return ("{ \"setpoint\": " + targetTemp + " }").getBytes();
+            }
+        };
+
+        queue.add(baselineRequest);
+    }
 }
