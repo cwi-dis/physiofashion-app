@@ -47,4 +47,27 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Trial trial = experiment.getCurrentTrial();
         Log.d(LOG_TAG, "Trial: " + trial.isFabricOn() + " " + trial.getCondition() + " " + trial.getIntensity() + " " + trial.hasAudio());
     }
+
+    private void setBaselineTemperature() {
+        Log.d(LOG_TAG, "Setting baseline temperature");
+
+        String url = experiment.getHostname() + "/api/setpoint";
+        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response -> {
+            this.pauseForAdaptation(20);
+        }, error -> {
+            Log.e(LOG_TAG, "Could not set adapation setpoint: " + error);
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public byte[] getBody() {
+                return ("{ \"setpoint\": " + BASELINE_TEMP + " }").getBytes();
+            }
+        };
+
+        queue.add(baselineRequest);
+    }
 }
