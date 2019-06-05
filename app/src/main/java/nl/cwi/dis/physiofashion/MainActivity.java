@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,18 +70,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         Button nextButton = findViewById(R.id.main_next_button);
+        EditText participantText = findViewById(R.id.participant_text);
+        EditText conditionText = findViewById(R.id.condition_text);
+
+        ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
+        boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
 
         JSONObject experimentData = this.getExperimentJSON();
-        Experiment experiment = new Experiment(
-                this.parseExperimentData(experimentData),
-                this.parseHostName(experimentData)
-        );
 
         nextButton.setOnClickListener((View v) -> {
+            Experiment experiment = new Experiment(
+                    this.parseExperimentData(experimentData, fabricOn),
+                    this.parseHostName(experimentData),
+                    participantText.getText().toString().trim(),
+                    Integer.parseInt(conditionText.getText().toString().trim())
+            );
+
             Intent intent = new Intent(this, TemperatureChangeActivity.class);
             intent.putExtra("experiment", experiment);
 
-            startActivity(intent)
+            startActivity(intent);
         });
     }
 
@@ -145,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         return experiment.optString("hostname", null);
     }
 
-    private ArrayList<Trial> parseExperimentData(JSONObject experiment) {
+    private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
             ArrayList<Trial> trialsList = new ArrayList<>(trials.length());
@@ -156,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
                 trialsList.add(new Trial(
                         trialObject.optString("audio", null),
                         trialObject.getString("condition"),
-                        trialObject.getInt("intensity")
+                        trialObject.getInt("intensity"),
+                        fabricOn
                 ));
             }
 
