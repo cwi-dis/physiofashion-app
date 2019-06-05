@@ -6,4 +6,6 @@
     <string name="participant_id">Participant ID</string>
     <string name="condition">Condition</string>
     <string name="fabric">Fabric</string>
+    <string name="temperature_feel">What temperature did you feel?</string>
+    <string name="how_comfortable">How comfortable was it?</string>
 </resources>
