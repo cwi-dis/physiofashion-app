@@ -1,9 +1,17 @@
 package nl.cwi.dis.physiofashion;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 
@@ -12,6 +20,10 @@ import nl.cwi.dis.physiofashion.experiment.Trial;
 
 public class TemperatureChangeActivity extends AppCompatActivity {
     private static final String LOG_TAG = "TemperatureChangeActivity";
+    private static final int BASELINE_TEMP = 32;
+
+    private Experiment experiment;
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,17 +31,20 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_temperature_change);
 
         Intent intent = this.getIntent();
-        final Experiment experiment = intent.getParcelableExtra("experiment");
+        experiment = intent.getParcelableExtra("experiment");
+        this.logCurrentTrial();
 
+        queue = Volley.newRequestQueue(this);
+        this.setBaselineTemperature();
+    }
+
+    private void logCurrentTrial() {
         Log.d(LOG_TAG, "Host: " + experiment.getHostname());
         Log.d(LOG_TAG, "Participant: " + experiment.getParticipantId());
         Log.d(LOG_TAG, "Counterbalance: " + experiment.getCounterBalance());
         Log.d(LOG_TAG, "Num trials: " + experiment.getTrials().size());
 
-        ArrayList<Trial> trials = experiment.getTrials();
-
-        for (Trial trial : trials) {
-            Log.d(LOG_TAG, "Trial: " + trial.isFabricOn() + " " + trial.getCondition() + " " + trial.getIntensity() + " " + trial.hasAudio());
-        }
+        Trial trial = experiment.getCurrentTrial();
+        Log.d(LOG_TAG, "Trial: " + trial.isFabricOn() + " " + trial.getCondition() + " " + trial.getIntensity() + " " + trial.hasAudio());
     }
 }
