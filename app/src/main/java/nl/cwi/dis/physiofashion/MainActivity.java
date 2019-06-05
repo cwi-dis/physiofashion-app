@@ -93,11 +93,16 @@ public class MainActivity extends AppCompatActivity {
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
 
+            int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
+            int repetitions = this.parseRepetitions(experimentData);
+
+            Log.d(LOG_TAG, "Counterbalance: " + counterBalance + " Repetitions: " + repetitions);
+
             Experiment experiment = new Experiment(
-                    this.parseExperimentData(experimentData, fabricOn),
+                    this.parseExperimentData(experimentData, fabricOn, counterBalance, repetitions),
                     this.parseHostName(experimentData),
                     participantText.getText().toString().trim(),
-                    Integer.parseInt(conditionText.getText().toString().trim())
+                    counterBalance
             );
 
             Intent intent = new Intent(this, TemperatureChangeActivity.class);

@@ -24,6 +24,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Host: " + experiment.getHostname());
         Log.d(LOG_TAG, "Participant: " + experiment.getParticipantId());
         Log.d(LOG_TAG, "Counterbalance: " + experiment.getCounterBalance());
+        Log.d(LOG_TAG, "Num trials: " + experiment.getTrials().size());
 
         ArrayList<Trial> trials = experiment.getTrials();
 
