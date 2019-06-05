@@ -151,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             File experimentFile = jsonFiles[0];
             Scanner scanner = new Scanner(experimentFile);
-            String fileContents = scanner.next();
+            String fileContents = scanner.useDelimiter("\\A").next();
+            scanner.close();
 
             return new JSONObject(fileContents);
         } catch (FileNotFoundException fnf) {
