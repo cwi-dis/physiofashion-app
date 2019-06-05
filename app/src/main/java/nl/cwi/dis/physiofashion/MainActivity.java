@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject trialObject = (JSONObject) trials.get(i);
 
                 trialsList.add(new Trial(
-                        false,
+                        trialObject.optString("audio", null),
                         trialObject.getString("condition"),
                         trialObject.getString("intensity")
                 ));
