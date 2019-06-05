@@ -22,6 +22,7 @@ public class Experiment implements Parcelable {
     private String hostname;
     private String participantId;
     private int counterBalance;
+    private int currentTrial;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -30,6 +31,7 @@ public class Experiment implements Parcelable {
         this.hostname = in.readString();
         this.participantId = in.readString();
         this.counterBalance = in.readInt();
+        this.currentTrial = in.readInt();
     }
 
     public Experiment(ArrayList<Trial> trials, String hostname, String participantId, int counterBalance) {
@@ -37,6 +39,7 @@ public class Experiment implements Parcelable {
         this.hostname = hostname;
         this.participantId = participantId;
         this.counterBalance = counterBalance;
+        this.currentTrial = 0;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class Experiment implements Parcelable {
         dest.writeString(hostname);
         dest.writeString(participantId);
         dest.writeInt(counterBalance);
+        dest.writeInt(currentTrial);
     }
 
     @Override
