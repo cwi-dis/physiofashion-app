@@ -71,6 +71,11 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         queue.add(baselineRequest);
     }
 
+    private void pauseForAdaptation(int timeInSeconds) {
+        Log.d(LOG_TAG, "Pausing for adaptation for " + timeInSeconds + " seconds");
+        new Handler().postDelayed(this::setTargetTemperature, timeInSeconds * 1000);
+    }
+
     private void setTargetTemperature() {
         Trial currentTrial = experiment.getCurrentTrial();
 
@@ -97,5 +102,9 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         };
 
         queue.add(baselineRequest);
+    }
+
+    private void pauseForStimulus(int timeInSeconds) {
+        Log.d(LOG_TAG, "Pausing for stimulus for " + timeInSeconds + " seconds");
     }
 }
