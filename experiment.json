@@ -1,5 +1,6 @@
 {
   "hostname": "http://peltier3.local",
+  "repetitions": 2,
   "trials": [
     {
       "condition": "cool",
