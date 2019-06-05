@@ -69,12 +69,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        Button nextButton = findViewById(R.id.main_next_button);
-        EditText participantText = findViewById(R.id.participant_text);
-        EditText conditionText = findViewById(R.id.condition_text);
-
-        ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
-        boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
+        final Button nextButton = findViewById(R.id.main_next_button);
+        final EditText participantText = findViewById(R.id.participant_text);
+        final EditText conditionText = findViewById(R.id.condition_text);
+        final ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
 
         JSONObject experimentData = this.getExperimentJSON();
 
@@ -92,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         nextButton.setOnClickListener((View v) -> {
+            boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
+
             Experiment experiment = new Experiment(
                     this.parseExperimentData(experimentData, fabricOn),
                     this.parseHostName(experimentData),
