@@ -71,4 +71,16 @@ public class Experiment implements Parcelable {
     public int getCounterBalance() {
         return counterBalance;
     }
+
+    public Trial getCurrentTrial() {
+        if (this.currentTrial >= this.trials.size()) {
+            return null;
+        }
+
+        return this.trials.get(this.currentTrial);
+    }
+
+    public void incrementCurrentTrial() {
+        this.currentTrial++;
+    }
 }
