@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
@@ -172,15 +173,15 @@ public class MainActivity extends AppCompatActivity {
         return experiment.optInt("repetitions", 1);
     }
 
-    private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn) {
+    private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn, int counterbalance, int repetitions) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
-            ArrayList<Trial> trialsList = new ArrayList<>(trials.length());
+            ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
 
             for (int i=0; i<trials.length(); i++) {
                 JSONObject trialObject = (JSONObject) trials.get(i);
 
-                trialsList.add(new Trial(
+                initialTrials.add(new Trial(
                         trialObject.optString("audio", null),
                         trialObject.getString("condition"),
                         trialObject.getInt("intensity"),
@@ -188,7 +189,21 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
-            return trialsList;
+            ArrayList<Trial> listWithRepetitions = new ArrayList<>(trials.length() * repetitions);
+
+            for (int i=0; i<repetitions; i++) {
+                listWithRepetitions.addAll(initialTrials);
+            }
+
+            Trial counterBalanceTrial = listWithRepetitions.remove(counterbalance);
+            Collections.shuffle(listWithRepetitions);
+
+            ArrayList<Trial> shuffledList = new ArrayList<>(trials.length() * repetitions);
+
+            shuffledList.add(counterBalanceTrial);
+            shuffledList.addAll(listWithRepetitions);
+
+            return shuffledList;
         } catch (JSONException je) {
             Log.e(LOG_TAG, "Could not parse JSON: " + je);
             return new ArrayList<>();
