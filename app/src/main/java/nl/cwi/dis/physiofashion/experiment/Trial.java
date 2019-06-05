@@ -19,17 +19,20 @@ public class Trial implements Parcelable {
     private String audioFile;
     private String condition;
     private int intensity;
+    private boolean fabricOn;
 
     private Trial(Parcel in) {
         this.audioFile = in.readString();
         this.condition = in.readString();
         this.intensity = in.readInt();
+        this.fabricOn = in.readInt() == 1;
     }
 
-    public Trial(String audioFile, String condition, int intensity) {
+    public Trial(String audioFile, String condition, int intensity, boolean fabricOn) {
         this.audioFile = audioFile;
         this.condition = condition;
         this.intensity = intensity;
+        this.fabricOn = fabricOn;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class Trial implements Parcelable {
         dest.writeString(audioFile);
         dest.writeString(condition);
         dest.writeInt(intensity);
+        dest.writeInt(fabricOn ? 1 : 0);
     }
 
     @Override
@@ -58,5 +62,9 @@ public class Trial implements Parcelable {
 
     public String getCondition() {
         return condition;
+    }
+
+    public boolean isFabricOn() {
+        return fabricOn;
     }
 }
