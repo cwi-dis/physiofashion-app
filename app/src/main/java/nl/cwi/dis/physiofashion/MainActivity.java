@@ -78,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
 
         JSONObject experimentData = this.getExperimentJSON();
 
+        if (experimentData == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Experiment directory")
+                    .setMessage("Place your experiment files into the PhysioFashion/ directory on your external storage and restart the app")
+                    .setPositiveButton("OK", (dialogInterface, i) -> {
+                        finishAffinity();
+                        System.exit(0);
+                    })
+                    .show();
+
+            return;
+        }
+
         nextButton.setOnClickListener((View v) -> {
             Experiment experiment = new Experiment(
                     this.parseExperimentData(experimentData, fabricOn),
@@ -122,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "App directory does not exist");
             Log.d(LOG_TAG, "Attempting to create directory: " + experimentDir.mkdirs());
 
-            return new JSONObject();
+            return null;
         }
 
         File[] jsonFiles = experimentDir.listFiles((dir, name) ->
@@ -132,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         if (jsonFiles.length == 0) {
             Log.d(LOG_TAG, "No experiment file found");
 
-            return new JSONObject();
+            return null;
         }
 
         try {
@@ -143,10 +156,10 @@ public class MainActivity extends AppCompatActivity {
             return new JSONObject(fileContents);
         } catch (FileNotFoundException fnf) {
             Log.e(LOG_TAG, "Experiment file not found: " + fnf);
-            return new JSONObject();
+            return null;
         } catch (JSONException je) {
             Log.e(LOG_TAG, "Could not parse JSON object: " + je);
-            return new JSONObject();
+            return null;
         }
     }
 
