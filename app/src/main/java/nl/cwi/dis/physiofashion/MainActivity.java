@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         return new ArrayList<>(Arrays.asList(videoFiles));
     }
 
-    private ArrayList<Trial> readExperimentData() {
+    private JSONObject getExperimentJSON() {
         File storage = Environment.getExternalStorageDirectory();
         File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "App directory does not exist");
             Log.d(LOG_TAG, "Attempting to create directory: " + experimentDir.mkdirs());
 
-            return new ArrayList<>();
+            return new JSONObject();
         }
 
         File[] jsonFiles = experimentDir.listFiles((dir, name) ->
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         if (jsonFiles.length == 0) {
             Log.d(LOG_TAG, "No experiment file found");
 
-            return new ArrayList<>();
+            return new JSONObject();
         }
 
         try {
@@ -114,23 +114,34 @@ public class MainActivity extends AppCompatActivity {
             Scanner scanner = new Scanner(experimentFile);
             String fileContents = scanner.next();
 
-            JSONObject experiment = new JSONObject(fileContents);
+            return new JSONObject(fileContents);
+        } catch (FileNotFoundException fnf) {
+            Log.e(LOG_TAG, "Experiment file not found: " + fnf);
+            return new JSONObject();
+        } catch (JSONException je) {
+            Log.e(LOG_TAG, "Could not parse JSON object: " + je);
+            return new JSONObject();
+        }
+    }
+
+    private ArrayList<Trial> parseExperimentData() {
+        try {
+            JSONObject experiment = this.getExperimentJSON();
             JSONArray trials = experiment.getJSONArray("trials");
 
             ArrayList<Trial> trialsList = new ArrayList<>(trials.length());
 
             for (int i=0; i<trials.length(); i++) {
+                JSONObject trialObject = (JSONObject) trials.get(i);
+
                 trialsList.add(new Trial(
                         false,
-                        ((JSONObject)trials.get(i)).getString("condition"),
-                        ((JSONObject)trials.get(i)).getString("intensity")
+                        trialObject.getString("condition"),
+                        trialObject.getString("intensity")
                 ));
             }
 
             return trialsList;
-        } catch (FileNotFoundException fnf) {
-            Log.e(LOG_TAG, "Experiment file not found: " + fnf);
-            return new ArrayList<>();
         } catch (JSONException je) {
             Log.e(LOG_TAG, "Could not parse JSON: " + je);
             return new ArrayList<>();
