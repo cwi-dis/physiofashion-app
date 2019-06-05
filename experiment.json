@@ -1,0 +1,17 @@
+{
+  "hostname": "http://peltier3.local",
+  "trials": [
+    {
+      "condition": "warm",
+      "intensity": 3
+    },
+    {
+      "condition": "cool",
+      "intensity": 6
+    }
+    {
+      "condition": "warm",
+      "intensity": 3
+    }
+  ]
+}
