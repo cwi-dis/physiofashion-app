@@ -3,9 +3,9 @@ package nl.cwi.dis.physiofashion.experiment;
 public class Trial {
     private String audioFile;
     private String condition;
-    private String intensity;
+    private int intensity;
 
-    public Trial(String audioFile, String condition, String intensity) {
+    public Trial(String audioFile, String condition, int intensity) {
         this.audioFile = audioFile;
         this.condition = condition;
         this.intensity = intensity;
@@ -15,7 +15,7 @@ public class Trial {
         return audioFile;
     }
 
-    public String getIntensity() {
+    public int getIntensity() {
         return intensity;
     }
 

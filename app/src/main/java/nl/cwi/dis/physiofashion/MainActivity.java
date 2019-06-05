@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         File[] videoFiles = audioDir.listFiles((dir, name) ->
-            name.endsWith(".mp4") || name.endsWith(".wav")
+            name.endsWith(".mp3") || name.endsWith(".wav")
         );
 
-        Log.d(LOG_TAG, "Video files: " + videoFiles.length);
+        Log.d(LOG_TAG, "Audio files: " + videoFiles.length);
         Arrays.sort(videoFiles);
 
         return new ArrayList<>(Arrays.asList(videoFiles));
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 trialsList.add(new Trial(
                         trialObject.optString("audio", null),
                         trialObject.getString("condition"),
-                        trialObject.getString("intensity")
+                        trialObject.getInt("intensity")
                 ));
             }
 
