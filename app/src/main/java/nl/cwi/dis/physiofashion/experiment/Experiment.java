@@ -112,6 +112,38 @@ public class Experiment implements Parcelable {
         return this.responses;
     }
 
+    public void writeResponsesToFile(File targetDir) {
+        ArrayList<String> lines = IntStream.range(0, this.trials.size()).mapToObj(i -> {
+            Trial trial = this.trials.get(i);
+            UserResponse response = this.responses.get(i);
+
+            return String.format(
+                    Locale.ENGLISH,
+                    "\"%s\",\"%s\",%d,%d,%.2f,%.2f,%d,%d\n",
+                    this.participantId,
+                    trial.getCondition(),
+                    trial.getIntensity(),
+                    trial.isFabricOn() ? 1 : 0,
+                    response.getStimulusStarted(),
+                    response.getStimulusFelt(),
+                    response.getTemperatureFelt(),
+                    response.getComfortLevel()
+            );
+        }).collect(Collectors.toCollection(ArrayList::new));
+
+        String filename = this.participantId + "_" + (this.trials.get(0).isFabricOn() ? "fabricOn" : "fabricOff") + ".csv";
+        String header = "participant,condition,intensity,fabricOn,stimulusStarted,stimulusFelt,temperatureFelt,comfortLevel\n";
+
+        Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + "/" + filename);
+
+        this.writeDataToFile(
+                filename,
+                targetDir,
+                header,
+                lines
+        );
+    }
+
     private void writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
         if (lines.size() == 0) {
             return;
