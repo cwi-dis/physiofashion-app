@@ -91,6 +91,10 @@ public class Experiment implements Parcelable {
     }
 
     public UserResponse getCurrentUserResponse() {
+        if (this.currentTrial >= this.responses.size()) {
+            this.responses.add(new UserResponse());
+        }
+
         return this.responses.get(this.currentTrial);
     }
 
