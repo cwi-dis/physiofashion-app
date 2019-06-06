@@ -55,6 +55,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         feelItButtonPressed = false;
         feelItButton.setOnClickListener(v -> {
             tempChangeLabel.setText(R.string.pressed_stimulus);
+            feelItButton.setEnabled(false);
             feelItButtonPressed = true;
 
             experiment.getCurrentUserResponse().setStimulusFelt(
