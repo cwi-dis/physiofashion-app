@@ -14,7 +14,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,11 +119,38 @@ public class MainActivity extends AppCompatActivity {
                     counterBalance
             );
 
-            Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
-            nextActivity.putExtra("experiment", experiment);
+            this.checkHost(hostname, () -> {
+                Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
+                nextActivity.putExtra("experiment", experiment);
 
-            startActivity(nextActivity);
+                startActivity(nextActivity);
+            }, () -> {
+                Toast errorToast = Toast.makeText(
+                        this,
+                        "Could not communicate with host " + hostname,
+                        Toast.LENGTH_LONG
+                );
+
+                errorToast.show();
+            });
         });
+    }
+
+    @FunctionalInterface
+    private interface VoidFunction {
+        void apply();
+    }
+
+    private void checkHost(String hostname, VoidFunction successFunction, VoidFunction errorFunction) {
+        String url = hostname + "/api/temperature";
+        StringRequest testRequest = new StringRequest(Request.Method.GET, url, response ->
+            successFunction.apply()
+        , error -> {
+            Log.e(LOG_TAG, "Could not communicate with host " + hostname + ": " + error);
+            errorFunction.apply();
+        });
+
+        Volley.newRequestQueue(this).add(testRequest);
     }
 
     private ArrayList<File> readAudioFiles() {
