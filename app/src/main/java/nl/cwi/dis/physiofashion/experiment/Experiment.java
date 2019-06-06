@@ -2,10 +2,20 @@ package nl.cwi.dis.physiofashion.experiment;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Experiment implements Parcelable {
+    private static final String LOG_TAG = "Experiment";
+
     public static final Parcelable.Creator<Experiment> CREATOR = new Parcelable.Creator<Experiment>() {
         @Override
         public Experiment createFromParcel(Parcel in) {
@@ -100,5 +110,23 @@ public class Experiment implements Parcelable {
 
     public ArrayList<UserResponse> getResponses() {
         return this.responses;
+    }
+
+    private void writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
+        if (lines.size() == 0) {
+            return;
+        }
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(new File(targetDir, filename))) {
+            fileOutputStream.write(header.getBytes());
+
+            for (String line : lines) {
+                fileOutputStream.write(line.getBytes());
+            }
+        } catch (FileNotFoundException fnf) {
+            Log.e(LOG_TAG, "File " + filename + " not found: " + fnf);
+        } catch (IOException ioe) {
+            Log.e(LOG_TAG, "File " + filename + " IO Exception: " + ioe);
+        }
     }
 }
