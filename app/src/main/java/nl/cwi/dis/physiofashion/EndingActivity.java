@@ -45,6 +45,8 @@ public class EndingActivity extends AppCompatActivity {
         final Button returnToStart = findViewById(R.id.return_to_start);
         returnToStart.setOnClickListener(v -> {
             Intent mainActivity = new Intent(this, MainActivity.class);
+            mainActivity.putExtra("participant", experiment.getParticipantId());
+
             startActivity(mainActivity);
         });
     }
