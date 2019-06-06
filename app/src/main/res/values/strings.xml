@@ -22,4 +22,7 @@
     <string name="wait_adaption">Please wait during the adaptation period&#8230;</string>
     <string name="wait_stimulus">Press the button once you feel the stimulus&#8230;</string>
     <string name="pressed_stimulus">Wait for the timer to elapse&#8230;</string>
+
+    <string name="return_to_start">Return to start</string>
+    <string name="thanks">Thank you for participating!</string>
 </resources>
