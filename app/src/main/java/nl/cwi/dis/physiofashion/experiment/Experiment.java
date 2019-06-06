@@ -93,4 +93,8 @@ public class Experiment implements Parcelable {
     public UserResponse getCurrentUserResponse() {
         return this.responses.get(this.currentTrial);
     }
+
+    public ArrayList<UserResponse> getResponses() {
+        return this.responses;
+    }
 }
