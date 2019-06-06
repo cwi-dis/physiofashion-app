@@ -56,6 +56,10 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         feelItButton.setOnClickListener(v -> {
             tempChangeLabel.setText(R.string.pressed_stimulus);
             feelItButtonPressed = true;
+
+            experiment.getCurrentUserResponse().setStimulusFelt(
+                    System.currentTimeMillis() / 1000.0
+            );
         });
 
         queue = Volley.newRequestQueue(this);
@@ -131,9 +135,12 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         Log.d(LOG_TAG, "Setting target temperature to " + targetTemp);
 
-        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response ->
-            this.pauseForStimulus()
-        , error ->
+        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response -> {
+            experiment.getCurrentUserResponse().setStimulusStarted(
+                    System.currentTimeMillis() / 1000.0
+            );
+            this.pauseForStimulus();
+        }, error ->
             Log.e(LOG_TAG, "Could not set target setpoint: " + error)
         ) {
             @Override
@@ -177,7 +184,12 @@ public class TemperatureChangeActivity extends AppCompatActivity {
             if (feelItButtonPressed) {
                 launchRatingActivity();
             } else {
-                feelItButton.setOnClickListener(v -> launchRatingActivity());
+                feelItButton.setOnClickListener(v -> {
+                    experiment.getCurrentUserResponse().setStimulusFelt(
+                            System.currentTimeMillis() / 1000.0
+                    );
+                    launchRatingActivity();
+                });
             }
         }, STIMULUS_PAUSE * 1000);
     }
