@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
 import nl.cwi.dis.physiofashion.experiment.UserResponse;
@@ -24,7 +25,16 @@ public class EndingActivity extends AppCompatActivity {
         ArrayList<UserResponse> responses = experiment.getResponses();
 
         for (UserResponse response : responses) {
-            Log.d(LOG_TAG, "started: " + response.getStimulusStarted() + " felt: " + response.getStimulusFelt() + " feeling: " + response.getTemperatureFelt() + " comfort: " + response.getComfortLevel());
+            String formattedResponse = String.format(
+                    Locale.ENGLISH,
+                    "%.2f, %.2f, %d, %d",
+                    response.getStimulusStarted(),
+                    response.getStimulusFelt(),
+                    response.getTemperatureFelt(),
+                    response.getComfortLevel()
+            );
+
+            Log.d(LOG_TAG, formattedResponse);
         }
 
         final Button returnToStart = findViewById(R.id.return_to_start);
