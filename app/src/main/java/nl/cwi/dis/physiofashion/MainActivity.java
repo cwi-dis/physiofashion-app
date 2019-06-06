@@ -90,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        Intent intent = getIntent();
+        String participantId = intent.getStringExtra("participant");
+
+        if (participantId != null) {
+            participantText.setText(participantId);
+        }
+
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
 
@@ -105,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
                     counterBalance
             );
 
-            Intent intent = new Intent(this, TemperatureChangeActivity.class);
-            intent.putExtra("experiment", experiment);
+            Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
+            nextActivity.putExtra("experiment", experiment);
 
-            startActivity(intent);
+            startActivity(nextActivity);
         });
     }
 
