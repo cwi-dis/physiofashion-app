@@ -28,6 +28,9 @@ public class UserResponse implements Parcelable {
         this.comfortLevel = in.readInt();
     }
 
+    public UserResponse() {
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeDouble(stimulusStarted);
