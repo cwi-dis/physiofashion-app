@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">PhysioFashion</string>
     <string name="title">Thermal Voice Wear</string>
+
+    <string name="empty" />
+    <string name="number">%1$d</string>
+
     <string name="change_temp">I feel it</string>
     <string name="next">Next</string>
     <string name="participant_id">Participant ID</string>
@@ -17,4 +21,5 @@
 
     <string name="wait_adaption">Please wait during the adaptation period&#8230;</string>
     <string name="wait_stimulus">Press the button once you feel the stimulus&#8230;</string>
+    <string name="pressed_stimulus">Wait for the timer to elapse&#8230;</string>
 </resources>
