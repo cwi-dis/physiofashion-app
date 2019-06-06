@@ -1,11 +1,13 @@
 package nl.cwi.dis.physiofashion;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -36,6 +38,9 @@ public class EndingActivity extends AppCompatActivity {
 
             Log.d(LOG_TAG, formattedResponse);
         }
+
+        File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        experiment.writeResponsesToFile(downloadDir);
 
         final Button returnToStart = findViewById(R.id.return_to_start);
         returnToStart.setOnClickListener(v -> {
