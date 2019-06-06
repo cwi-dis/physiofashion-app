@@ -33,4 +33,8 @@ public class EndingActivity extends AppCompatActivity {
             startActivity(mainActivity);
         });
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -214,4 +214,8 @@ public class MainActivity extends AppCompatActivity {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

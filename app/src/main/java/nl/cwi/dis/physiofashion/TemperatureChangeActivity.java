@@ -218,4 +218,8 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         startActivity(ratingIntent);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
