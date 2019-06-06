@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
 import nl.cwi.dis.physiofashion.experiment.Trial;
+import nl.cwi.dis.physiofashion.experiment.UserResponse;
 
 public class RatingActivity extends AppCompatActivity {
 
@@ -24,6 +25,11 @@ public class RatingActivity extends AppCompatActivity {
         final Button ratingNextButton = findViewById(R.id.rating_next_button);
 
         ratingNextButton.setOnClickListener(v -> {
+            UserResponse currentResponse = experiment.getCurrentUserResponse();
+
+            currentResponse.setTemperatureFelt(temperatureSeekBar.getProgress());
+            currentResponse.setComfortLevel(comfortSeekBar.getProgress());
+
             experiment.incrementCurrentTrial();
             Trial nextTrial = experiment.getCurrentTrial();
 
