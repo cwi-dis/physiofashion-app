@@ -7,7 +7,7 @@
     tools:context=".RatingActivity">
 
     <SeekBar
-        android:id="@+id/temperatureSeekBar"
+        android:id="@+id/temperature_seek_bar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <SeekBar
-        android:id="@+id/comfortSeekBar"
+        android:id="@+id/comfort_seek_bar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/rating_next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -46,7 +46,7 @@
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comfortSeekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/comfort_seek_bar" />
 
     <TextView
         android:id="@+id/textView4"
@@ -72,7 +72,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureSeekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/temperature_seek_bar" />
 
     <TextView
         android:id="@+id/textView6"
@@ -80,8 +80,8 @@
         android:layout_height="wrap_content"
         android:text="@string/not_comfortable"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/comfortSeekBar"
-        app:layout_constraintTop_toBottomOf="@+id/comfortSeekBar" />
+        app:layout_constraintStart_toStartOf="@+id/comfort_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/comfort_seek_bar" />
 
     <TextView
         android:id="@+id/textView7"
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:text="@string/very_comfortable"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/comfortSeekBar"
-        app:layout_constraintTop_toBottomOf="@+id/comfortSeekBar" />
+        app:layout_constraintEnd_toEndOf="@+id/comfort_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/comfort_seek_bar" />
 
     <TextView
         android:id="@+id/textView8"
@@ -98,8 +98,8 @@
         android:layout_height="wrap_content"
         android:text="@string/cold"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/temperatureSeekBar"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureSeekBar" />
+        app:layout_constraintStart_toStartOf="@+id/temperature_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_seek_bar" />
 
     <TextView
         android:id="@+id/textView9"
@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:text="@string/hot"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/temperatureSeekBar"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureSeekBar" />
+        app:layout_constraintEnd_toEndOf="@+id/temperature_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_seek_bar" />
 
 </android.support.constraint.ConstraintLayout>
