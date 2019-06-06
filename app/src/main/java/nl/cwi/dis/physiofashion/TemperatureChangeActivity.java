@@ -35,7 +35,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
     private boolean feelItButtonPressed;
     private String url;
-    private int counter;
+    private Integer counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,10 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         countdownLabel = findViewById(R.id.countdown_label);
 
         feelItButtonPressed = false;
-        feelItButton.setOnClickListener(v -> feelItButtonPressed = true);
+        feelItButton.setOnClickListener(v -> {
+            tempChangeLabel.setText(R.string.pressed_stimulus);
+            feelItButtonPressed = true;
+        });
 
         queue = Volley.newRequestQueue(this);
         this.setBaselineTemperature();
@@ -91,9 +94,30 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         queue.add(baselineRequest);
     }
 
-    private void pauseForAdaptation(int timeInSeconds) {
-        Log.d(LOG_TAG, "Pausing for adaptation for " + timeInSeconds + " seconds");
-        new Handler().postDelayed(this::setTargetTemperature, timeInSeconds * 1000);
+    private void pauseForAdaptation() {
+        Log.d(LOG_TAG, "Pausing for adaptation for " + ADAPTATION_PAUSE + " seconds");
+
+        counter = ADAPTATION_PAUSE;
+        Timer t = new Timer();
+
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    if (counter >= 0) {
+                        String msg = getApplicationContext().getString(R.string.number, counter);
+                        countdownLabel.setText(msg);
+
+                        counter--;
+                    }
+                });
+            }
+        }, 0, 1000);
+
+        new Handler().postDelayed(() -> {
+            t.cancel();
+            setTargetTemperature();
+        }, ADAPTATION_PAUSE * 1000);
     }
 
     private void setTargetTemperature() {
@@ -129,8 +153,26 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private void pauseForStimulus() {
         Log.d(LOG_TAG, "Pausing for stimulus for " + STIMULUS_PAUSE + " seconds");
 
+        counter = STIMULUS_PAUSE;
+        Timer t = new Timer();
+
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    if (counter >= 0) {
+                        String msg = getApplicationContext().getString(R.string.number, counter);
+                        countdownLabel.setText(msg);
+
+                        counter--;
+                    }
+                });
+            }
+        }, 0, 1000);
+
         new Handler().postDelayed(() -> {
             Log.d(LOG_TAG, "Stimulus wait period passed");
+            t.cancel();
 
             if (feelItButtonPressed) {
                 launchRatingActivity();
