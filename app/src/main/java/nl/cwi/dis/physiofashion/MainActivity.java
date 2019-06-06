@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
 
+            String hostname = this.parseHostName(experimentData);
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
             int repetitions = this.parseRepetitions(experimentData);
 
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
             Experiment experiment = new Experiment(
                     this.parseExperimentData(experimentData, fabricOn, counterBalance, repetitions),
-                    this.parseHostName(experimentData),
+                    hostname,
                     participantText.getText().toString().trim(),
                     counterBalance
             );
@@ -182,7 +183,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int parseRepetitions(JSONObject experiment) {
-        return experiment.optInt("repetitions", 1);
+        int repetitions = experiment.optInt("repetitions", 1);
+
+        if (repetitions < 1) {
+            return 1;
+        }
+
+        return repetitions;
     }
 
     private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn, int counterbalance, int repetitions) {
