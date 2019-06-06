@@ -23,6 +23,7 @@ public class Experiment implements Parcelable {
     private String participantId;
     private int counterBalance;
     private int currentTrial;
+    private ArrayList<UserResponse> responses;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -32,6 +33,9 @@ public class Experiment implements Parcelable {
         this.participantId = in.readString();
         this.counterBalance = in.readInt();
         this.currentTrial = in.readInt();
+
+        this.responses = new ArrayList<>();
+        in.readTypedList(this.responses, UserResponse.CREATOR);
     }
 
     public Experiment(ArrayList<Trial> trials, String hostname, String participantId, int counterBalance) {
@@ -40,6 +44,7 @@ public class Experiment implements Parcelable {
         this.participantId = participantId;
         this.counterBalance = counterBalance;
         this.currentTrial = 0;
+        this.responses = new ArrayList<>(trials.size());
     }
 
     @Override
@@ -49,6 +54,7 @@ public class Experiment implements Parcelable {
         dest.writeString(participantId);
         dest.writeInt(counterBalance);
         dest.writeInt(currentTrial);
+        dest.writeTypedList(responses);
     }
 
     @Override
@@ -82,5 +88,9 @@ public class Experiment implements Parcelable {
 
     public void incrementCurrentTrial() {
         this.currentTrial++;
+    }
+
+    public UserResponse getCurrentUserResponse() {
+        return this.responses.get(this.currentTrial);
     }
 }
