@@ -24,8 +24,21 @@ public class EndingActivity extends AppCompatActivity {
 
         Intent intent = this.getIntent();
         Experiment experiment = intent.getParcelableExtra("experiment");
-        ArrayList<UserResponse> responses = experiment.getResponses();
+        this.logResponses(experiment.getResponses());
 
+        File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        experiment.writeResponsesToFile(downloadDir);
+
+        final Button returnToStart = findViewById(R.id.return_to_start);
+        returnToStart.setOnClickListener(v -> {
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            mainActivity.putExtra("participant", experiment.getParticipantId());
+
+            startActivity(mainActivity);
+        });
+    }
+
+    private void logResponses(ArrayList<UserResponse> responses) {
         for (UserResponse response : responses) {
             String formattedResponse = String.format(
                     Locale.ENGLISH,
@@ -38,17 +51,6 @@ public class EndingActivity extends AppCompatActivity {
 
             Log.d(LOG_TAG, formattedResponse);
         }
-
-        File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        experiment.writeResponsesToFile(downloadDir);
-
-        final Button returnToStart = findViewById(R.id.return_to_start);
-        returnToStart.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            mainActivity.putExtra("participant", experiment.getParticipantId());
-
-            startActivity(mainActivity);
-        });
     }
 
     @Override
