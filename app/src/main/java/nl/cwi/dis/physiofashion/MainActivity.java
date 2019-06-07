@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +33,9 @@ import nl.cwi.dis.physiofashion.experiment.JSONExperiment;
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
     private static final int STORAGE_PERMISSION_REQUEST = 1;
+
+    private EditText participantText;
+    private EditText conditionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +74,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         final Button nextButton = findViewById(R.id.main_next_button);
-        final EditText participantText = findViewById(R.id.participant_text);
-        final EditText conditionText = findViewById(R.id.condition_text);
         final ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
+
+        participantText = findViewById(R.id.participant_text);
+        conditionText = findViewById(R.id.condition_text);
 
         JSONExperiment experimentData = this.getExperimentJSON();
 
@@ -94,6 +100,36 @@ public class MainActivity extends AppCompatActivity {
         if (participantId != null) {
             participantText.setText(participantId);
         }
+
+        participantText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                nextButton.setEnabled(areTextFieldsPopulated());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        conditionText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                nextButton.setEnabled(areTextFieldsPopulated());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
