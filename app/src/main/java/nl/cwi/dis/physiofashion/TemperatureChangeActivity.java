@@ -22,10 +22,6 @@ import nl.cwi.dis.physiofashion.experiment.Trial;
 public class TemperatureChangeActivity extends AppCompatActivity {
     private static final String LOG_TAG = "TemperatureChangeActivity";
 
-    private static final int BASELINE_TEMP = 32;
-    private static final int STIMULUS_PAUSE = 10;
-    private static final int ADAPTATION_PAUSE = 20;
-
     private Button feelItButton;
     private TextView tempChangeLabel;
     private TextView countdownLabel;
@@ -92,7 +88,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
             @Override
             public byte[] getBody() {
-                return ("{ \"setpoint\": " + BASELINE_TEMP + " }").getBytes();
+                return ("{ \"setpoint\": " + experiment.getBaselineTemp() + " }").getBytes();
             }
         };
 
@@ -100,9 +96,9 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseForAdaptation() {
-        Log.d(LOG_TAG, "Pausing for adaptation for " + ADAPTATION_PAUSE + " seconds");
+        Log.d(LOG_TAG, "Pausing for adaptation for " + experiment.getAdaptationPeriod() + " seconds");
 
-        counter = ADAPTATION_PAUSE;
+        counter = experiment.getAdaptationPeriod();
         Timer t = new Timer();
 
         t.scheduleAtFixedRate(new TimerTask() {
@@ -122,7 +118,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             t.cancel();
             setTargetTemperature();
-        }, ADAPTATION_PAUSE * 1000);
+        }, experiment.getAdaptationPeriod() * 1000);
     }
 
     private void setTargetTemperature() {
@@ -132,7 +128,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Trial currentTrial = experiment.getCurrentTrial();
 
         int tempChange = (currentTrial.getCondition().compareTo("warm") == 0) ? currentTrial.getIntensity() : -currentTrial.getIntensity();
-        int targetTemp = BASELINE_TEMP + tempChange;
+        int targetTemp = experiment.getBaselineTemp() + tempChange;
 
         Log.d(LOG_TAG, "Setting target temperature to " + targetTemp);
 
@@ -159,9 +155,9 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseForStimulus() {
-        Log.d(LOG_TAG, "Pausing for stimulus for " + STIMULUS_PAUSE + " seconds");
+        Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
 
-        counter = STIMULUS_PAUSE;
+        counter = experiment.getStimulusPeriod();
         Timer t = new Timer();
 
         t.scheduleAtFixedRate(new TimerTask() {
@@ -192,7 +188,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
                     launchRatingActivity();
                 });
             }
-        }, STIMULUS_PAUSE * 1000);
+        }, experiment.getStimulusPeriod() * 1000);
     }
 
     private void launchRatingActivity() {
@@ -208,7 +204,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
             @Override
             public byte[] getBody() {
-                return ("{ \"setpoint\": " + BASELINE_TEMP + " }").getBytes();
+                return ("{ \"setpoint\": " + experiment.getBaselineTemp() + " }").getBytes();
             }
         };
 
