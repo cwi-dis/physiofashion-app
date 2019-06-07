@@ -124,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private boolean areTextFieldsPopulated() {
+        String participantName = participantText.getText().toString();
+        String counterbalanceValue = conditionText.getText().toString();
+
+        return participantName.compareTo("") != 0 && counterbalanceValue.compareTo("") != 0;
+    }
+
     @FunctionalInterface
     private interface VoidFunction {
         void apply();
