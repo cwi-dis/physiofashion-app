@@ -185,10 +185,27 @@ public class Experiment implements Parcelable {
         );
     }
 
+    private String getNewFilename(String filename, File targetDir) {
+        int counter = 0;
+
+        while (true) {
+            File targetFile = new File(targetDir, filename);
+
+            if (!targetFile.exists()) {
+                return filename;
+            }
+
+            counter++;
+            filename = filename.replace(".csv", "") + String.format(Locale.ENGLISH, "_%02d.csv", counter);
+        }
+    }
+
     private void writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
         if (lines.size() == 0) {
             return;
         }
+
+        filename = this.getNewFilename(filename, targetDir);
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(new File(targetDir, filename))) {
             fileOutputStream.write(header.getBytes());
