@@ -34,6 +34,9 @@ public class Experiment implements Parcelable {
     private int counterBalance;
     private int currentTrial;
     private ArrayList<UserResponse> responses;
+    private int baselineTemp;
+    private int adaptationPeriod;
+    private int stimulusPeriod;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -46,6 +49,10 @@ public class Experiment implements Parcelable {
 
         this.responses = new ArrayList<>();
         in.readTypedList(this.responses, UserResponse.CREATOR);
+
+        this.baselineTemp = in.readInt();
+        this.adaptationPeriod = in.readInt();
+        this.stimulusPeriod = in.readInt();
     }
 
     public Experiment(ArrayList<Trial> trials, String hostname, String participantId, int counterBalance) {
@@ -55,6 +62,21 @@ public class Experiment implements Parcelable {
         this.counterBalance = counterBalance;
         this.currentTrial = 0;
         this.responses = new ArrayList<>(trials.size());
+        this.baselineTemp = 32;
+        this.adaptationPeriod = 20;
+        this.stimulusPeriod = 10;
+    }
+
+    public Experiment(JSONExperiment experimentData, String participantId, int counterBalance, boolean fabricOn) {
+        this.trials = experimentData.getShuffledTrials(fabricOn, counterBalance);
+        this.hostname = experimentData.getHostname();
+        this.participantId = participantId;
+        this.counterBalance = counterBalance;
+        this.currentTrial = 0;
+        this.responses = new ArrayList<>(trials.size());
+        this.baselineTemp = experimentData.getBaselineTemperature();
+        this.adaptationPeriod = experimentData.getAdaptationPeriod();
+        this.stimulusPeriod = experimentData.getStimulusPeriod();
     }
 
     @Override
@@ -65,6 +87,9 @@ public class Experiment implements Parcelable {
         dest.writeInt(counterBalance);
         dest.writeInt(currentTrial);
         dest.writeTypedList(responses);
+        dest.writeInt(baselineTemp);
+        dest.writeInt(adaptationPeriod);
+        dest.writeInt(stimulusPeriod);
     }
 
     @Override
@@ -110,6 +135,18 @@ public class Experiment implements Parcelable {
 
     public ArrayList<UserResponse> getResponses() {
         return this.responses;
+    }
+
+    public int getBaselineTemp() {
+        return baselineTemp;
+    }
+
+    public int getAdaptationPeriod() {
+        return adaptationPeriod;
+    }
+
+    public int getStimulusPeriod() {
+        return stimulusPeriod;
     }
 
     public void writeResponsesToFile(File targetDir) {
