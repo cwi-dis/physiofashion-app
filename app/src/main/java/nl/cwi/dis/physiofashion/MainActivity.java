@@ -18,23 +18,15 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
-import nl.cwi.dis.physiofashion.experiment.Trial;
+import nl.cwi.dis.physiofashion.experiment.JSONExperiment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
@@ -81,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         final EditText conditionText = findViewById(R.id.condition_text);
         final ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
 
-        JSONObject experimentData = this.getExperimentJSON();
+        JSONExperiment experimentData = this.getExperimentJSON();
 
-        if (experimentData == null) {
+        if (experimentData == null || !experimentData.isValidExperiment()) {
             new AlertDialog.Builder(this)
                     .setTitle("Experiment directory")
                     .setMessage("Place your experiment files into the PhysioFashion/ directory on your external storage and restart the app")
@@ -105,20 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
-
-            String hostname = this.parseHostName(experimentData);
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
-            int repetitions = this.parseRepetitions(experimentData);
-
-            Log.d(LOG_TAG, "Counterbalance: " + counterBalance + " Repetitions: " + repetitions);
 
             Experiment experiment = new Experiment(
-                    this.parseExperimentData(experimentData, fabricOn, counterBalance, repetitions),
-                    hostname,
+                    experimentData,
                     participantText.getText().toString().trim(),
-                    counterBalance
+                    counterBalance,
+                    fabricOn
             );
 
+            String hostname = experimentData.getHostname();
             this.checkHost(hostname, () -> {
                 Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
                 nextActivity.putExtra("experiment", experiment);
@@ -174,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         return new ArrayList<>(Arrays.asList(videoFiles));
     }
 
-    private JSONObject getExperimentJSON() {
+    private JSONExperiment getExperimentJSON() {
         File storage = Environment.getExternalStorageDirectory();
         File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
 
@@ -195,71 +183,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-        try {
-            File experimentFile = jsonFiles[0];
-            Scanner scanner = new Scanner(experimentFile);
-            String fileContents = scanner.useDelimiter("\\A").next();
-            scanner.close();
-
-            return new JSONObject(fileContents);
-        } catch (FileNotFoundException fnf) {
-            Log.e(LOG_TAG, "Experiment file not found: " + fnf);
-            return null;
-        } catch (JSONException je) {
-            Log.e(LOG_TAG, "Could not parse JSON object: " + je);
-            return null;
-        }
-    }
-
-    private String parseHostName(JSONObject experiment) {
-        return experiment.optString("hostname", null);
-    }
-
-    private int parseRepetitions(JSONObject experiment) {
-        int repetitions = experiment.optInt("repetitions", 1);
-
-        if (repetitions < 1) {
-            return 1;
-        }
-
-        return repetitions;
-    }
-
-    private ArrayList<Trial> parseExperimentData(JSONObject experiment, boolean fabricOn, int counterbalance, int repetitions) {
-        try {
-            JSONArray trials = experiment.getJSONArray("trials");
-            ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
-
-            for (int i=0; i<trials.length(); i++) {
-                JSONObject trialObject = (JSONObject) trials.get(i);
-
-                initialTrials.add(new Trial(
-                        trialObject.optString("audio", null),
-                        trialObject.getString("condition"),
-                        trialObject.getInt("intensity"),
-                        fabricOn
-                ));
-            }
-
-            ArrayList<Trial> listWithRepetitions = new ArrayList<>(trials.length() * repetitions);
-
-            for (int i=0; i<repetitions; i++) {
-                listWithRepetitions.addAll(initialTrials);
-            }
-
-            Trial counterBalanceTrial = listWithRepetitions.remove(counterbalance);
-            Collections.shuffle(listWithRepetitions);
-
-            ArrayList<Trial> shuffledList = new ArrayList<>(trials.length() * repetitions);
-
-            shuffledList.add(counterBalanceTrial);
-            shuffledList.addAll(listWithRepetitions);
-
-            return shuffledList;
-        } catch (JSONException je) {
-            Log.e(LOG_TAG, "Could not parse JSON: " + je);
-            return new ArrayList<>();
-        }
+        return new JSONExperiment(jsonFiles[0]);
     }
 
     @Override
