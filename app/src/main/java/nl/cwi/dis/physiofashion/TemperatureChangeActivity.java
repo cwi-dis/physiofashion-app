@@ -48,6 +48,15 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         tempChangeLabel = findViewById(R.id.temp_change_label);
         countdownLabel = findViewById(R.id.countdown_label);
 
+        String msg = getApplicationContext().getString(
+                R.string.trial_counter,
+                experiment.getCurrentTrialIndex() + 1,
+                experiment.getTrials().size()
+        );
+
+        final TextView trialCounter = findViewById(R.id.trial_counter);
+        trialCounter.setText(msg);
+
         feelItButtonPressed = false;
         feelItButton.setOnClickListener(v -> {
             tempChangeLabel.setText(R.string.pressed_stimulus);
@@ -74,7 +83,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void setBaselineTemperature() {
-        Log.d(LOG_TAG, "Setting baseline temperature");
+        Log.d(LOG_TAG, "Setting baseline temperature: " + experiment.getBaselineTemp());
 
         StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response ->
             this.pauseForAdaptation()
