@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
     private static final int STORAGE_PERMISSION_REQUEST = 1;
 
+    private Button nextButton;
+    private ToggleButton fabricToggle;
     private EditText participantText;
     private EditText conditionText;
 
@@ -73,9 +75,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        final Button nextButton = findViewById(R.id.main_next_button);
-        final ToggleButton fabricToggle = findViewById(R.id.fabric_toggle);
-
+        nextButton = findViewById(R.id.main_next_button);
+        fabricToggle = findViewById(R.id.fabric_toggle);
         participantText = findViewById(R.id.participant_text);
         conditionText = findViewById(R.id.condition_text);
 
@@ -101,35 +102,7 @@ public class MainActivity extends AppCompatActivity {
             participantText.setText(participantId);
         }
 
-        participantText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                nextButton.setEnabled(areTextFieldsPopulated());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        conditionText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                nextButton.setEnabled(areTextFieldsPopulated());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
+        this.watchTextFieldChanges();
 
         nextButton.setOnClickListener((View v) -> {
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
@@ -158,6 +131,27 @@ public class MainActivity extends AppCompatActivity {
                 errorToast.show();
             });
         });
+    }
+
+    private void watchTextFieldChanges() {
+        EditText[] textFields = new EditText[] { participantText, conditionText };
+
+        for (EditText textField : textFields) {
+            textField.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    nextButton.setEnabled(areTextFieldsPopulated());
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+        }
     }
 
     private boolean areTextFieldsPopulated() {
