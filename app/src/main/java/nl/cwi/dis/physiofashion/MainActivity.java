@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         this.watchTextFieldChanges();
 
         nextButton.setOnClickListener((View v) -> {
+            nextButton.setEnabled(false);
             boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
 
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
                 nextActivity.putExtra("experiment", experiment);
 
+                nextButton.setEnabled(true);
                 startActivity(nextActivity);
             }, () -> {
                 Toast errorToast = Toast.makeText(
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 );
 
                 errorToast.show();
+                nextButton.setEnabled(true);
             });
         });
     }
