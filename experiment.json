@@ -1,5 +1,8 @@
 {
   "hostname": "http://peltier3.local",
+  "baselineTemperature": 32,
+  "adaptationLength": 20,
+  "stimulusLength": 10,
   "repetitions": 2,
   "trials": [
     {
