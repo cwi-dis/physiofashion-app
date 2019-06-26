@@ -79,7 +79,7 @@ public class JSONExperiment {
                 JSONObject trialObject = (JSONObject) trials.get(i);
 
                 initialTrials.add(new Trial(
-                        trialObject.optString("audio", null),
+                        trialObject.optString("audioFile", null),
                         trialObject.getString("condition"),
                         trialObject.optInt("intensity", 0),
                         fabricOn
