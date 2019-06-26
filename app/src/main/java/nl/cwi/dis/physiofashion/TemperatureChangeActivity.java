@@ -32,6 +32,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
     private Experiment experiment;
     private RequestQueue queue;
+    private MediaPlayer audioPlayer;
 
     private boolean feelItButtonPressed;
     private String url;
@@ -167,21 +168,20 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         queue.add(baselineRequest);
     }
 
-    private MediaPlayer loadAudioFile() {
+    private void loadAudioFile() {
         Trial currentTrial = experiment.getCurrentTrial();
-        MediaPlayer mp = new MediaPlayer();
+        audioPlayer = new MediaPlayer();
 
-        File storage = Environment.getExternalStorageDirectory();
-        File experimentDir = new File(storage, getResources().getString(R.string.app_name) + File.separator);
+        File experimentDir = new File(Environment.getExternalStorageDirectory(), getResources().getString(R.string.app_name));
+        File audioPath = new File(experimentDir, currentTrial.getAudioFile());
 
         try {
-            mp.setDataSource(experimentDir + currentTrial.getAudioFile());
-            mp.prepare();
+            Log.d(LOG_TAG, "Loading audio file from: " + audioPath.getAbsolutePath());
+            audioPlayer.setDataSource(audioPath.getAbsolutePath());
+            audioPlayer.prepare();
         } catch (IOException ioe) {
             Log.e(LOG_TAG, "Could not prepare audio file: " + ioe);
         }
-
-        return mp;
     }
 
     private int getAudioStartTime(String clipAlignment, int audioDuration, int stimulusDuration) {
@@ -203,10 +203,11 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
 
         if (currentTrial.hasAudio()) {
-            MediaPlayer mp = this.loadAudioFile();
-            int startTimeMs = this.getAudioStartTime(experiment.getClipAlignment(), mp.getDuration(), experiment.getStimulusPeriod() * 1000);
+            this.loadAudioFile();
+            int startTimeMs = this.getAudioStartTime(experiment.getClipAlignment(), audioPlayer.getDuration(), experiment.getStimulusPeriod() * 1000);
 
-            new Handler().postDelayed(mp::start, startTimeMs);
+            Log.d(LOG_TAG, "Starting audio playback after " + startTimeMs + "ms");
+            new Handler().postDelayed(audioPlayer::start, startTimeMs);
         }
 
         counter = experiment.getStimulusPeriod();
@@ -229,6 +230,11 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Log.d(LOG_TAG, "Stimulus wait period passed");
             t.cancel();
+
+            if (audioPlayer != null) {
+                audioPlayer.stop();
+                audioPlayer.release();
+            }
 
             if (feelItButtonPressed) {
                 launchRatingActivity();
