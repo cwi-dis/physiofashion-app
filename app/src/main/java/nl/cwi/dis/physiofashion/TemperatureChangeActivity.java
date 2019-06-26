@@ -184,6 +184,20 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         return mp;
     }
 
+    private int getAudioStartTime(String clipAlignment, int audioDuration, int stimulusDuration) {
+        if (audioDuration > stimulusDuration) {
+            return 0;
+        }
+
+        if (clipAlignment.compareTo("center") == 0) {
+            return (int)Math.floor((stimulusDuration / 2.0) - (audioDuration / 2.0));
+        } else if (clipAlignment.compareTo("end") == 0) {
+            return stimulusDuration - audioDuration;
+        }
+
+        return 0;
+    }
+
     private void pauseForStimulus() {
         Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
 
