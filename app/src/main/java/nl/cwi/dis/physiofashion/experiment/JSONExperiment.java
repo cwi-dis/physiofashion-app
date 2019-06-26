@@ -56,6 +56,10 @@ public class JSONExperiment {
         return experiment.optInt("stimulusLength", 20);
     }
 
+    public String getClipAlignment() {
+        return experiment.optString("clipAlignment", "center");
+    }
+
     public int getRepetitions() {
         int repetitions = experiment.optInt("repetitions", 1);
 
@@ -77,7 +81,7 @@ public class JSONExperiment {
                 initialTrials.add(new Trial(
                         trialObject.optString("audio", null),
                         trialObject.getString("condition"),
-                        trialObject.getInt("intensity"),
+                        trialObject.optInt("intensity", 0),
                         fabricOn
                 ));
             }
