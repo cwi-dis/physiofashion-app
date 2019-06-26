@@ -1,6 +1,8 @@
 package nl.cwi.dis.physiofashion;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -161,6 +165,23 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         };
 
         queue.add(baselineRequest);
+    }
+
+    private MediaPlayer loadAudioFile() {
+        Trial currentTrial = experiment.getCurrentTrial();
+        MediaPlayer mp = new MediaPlayer();
+
+        File storage = Environment.getExternalStorageDirectory();
+        File experimentDir = new File(storage, getResources().getString(R.string.app_name) + File.separator);
+
+        try {
+            mp.setDataSource(experimentDir + currentTrial.getAudioFile());
+            mp.prepare();
+        } catch (IOException ioe) {
+            Log.e(LOG_TAG, "Could not prepare audio file: " + ioe);
+        }
+
+        return mp;
     }
 
     private void pauseForStimulus() {
