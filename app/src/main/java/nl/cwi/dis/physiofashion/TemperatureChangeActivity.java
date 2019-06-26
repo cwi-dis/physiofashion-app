@@ -199,7 +199,15 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseForStimulus() {
+        Trial currentTrial = experiment.getCurrentTrial();
         Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
+
+        if (currentTrial.hasAudio()) {
+            MediaPlayer mp = this.loadAudioFile();
+            int startTimeMs = this.getAudioStartTime(experiment.getClipAlignment(), mp.getDuration(), experiment.getStimulusPeriod() * 1000);
+
+            new Handler().postDelayed(mp::start, startTimeMs);
+        }
 
         counter = experiment.getStimulusPeriod();
         Timer t = new Timer();
