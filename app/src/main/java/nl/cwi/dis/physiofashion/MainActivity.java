@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ExperimentParser parseExperiment() {
         File storage = Environment.getExternalStorageDirectory();
-        File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
+        File experimentDir = new File(storage, getResources().getString(R.string.app_name) + File.separator);
 
         if (!experimentDir.exists()) {
             Log.d(LOG_TAG, "App directory does not exist");
