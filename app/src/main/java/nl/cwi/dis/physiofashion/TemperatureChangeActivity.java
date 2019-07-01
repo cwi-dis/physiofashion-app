@@ -84,7 +84,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Num trials: " + experiment.getTrials().size());
 
         Trial trial = experiment.getCurrentTrial();
-        Log.d(LOG_TAG, "Trial: " + trial.isFabricOn() + " " + trial.getCondition() + " " + trial.getIntensity() + " " + trial.hasAudio());
+        Log.d(LOG_TAG, "Trial: " + trial.getExternalCondition() + " " + trial.getCondition() + " " + trial.getIntensity() + " " + trial.hasAudio());
     }
 
     private void setBaselineTemperature() {

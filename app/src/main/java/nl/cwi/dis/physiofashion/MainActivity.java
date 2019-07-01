@@ -118,14 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener((View v) -> {
             nextButton.setEnabled(false);
-            boolean fabricOn = externalConditionToggle.getText() == externalConditionToggle.getTextOn();
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
 
             Experiment experiment = new Experiment(
                     experimentParser,
                     participantText.getText().toString().trim(),
                     counterBalance,
-                    fabricOn
+                    externalConditionToggle.getText().toString()
             );
 
             String hostname = experimentParser.getHostname();

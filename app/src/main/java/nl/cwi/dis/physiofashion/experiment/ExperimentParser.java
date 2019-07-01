@@ -96,7 +96,7 @@ public class ExperimentParser {
         return repetitions;
     }
 
-    public ArrayList<Trial> getShuffledTrials(boolean fabricOn, int counterbalance) {
+    public ArrayList<Trial> getShuffledTrials(String externalCondition, int counterbalance) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
             ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
@@ -108,7 +108,7 @@ public class ExperimentParser {
                         trialObject.optString("audioFile", null),
                         trialObject.getString("condition"),
                         trialObject.optInt("intensity", 0),
-                        fabricOn
+                        externalCondition
                 ));
             }
 

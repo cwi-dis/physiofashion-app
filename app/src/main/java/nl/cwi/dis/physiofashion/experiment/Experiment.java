@@ -70,8 +70,8 @@ public class Experiment implements Parcelable {
         this.stimulusPeriod = 10;
     }
 
-    public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, boolean fabricOn) {
-        this.trials = experimentParser.getShuffledTrials(fabricOn, counterBalance);
+    public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
+        this.trials = experimentParser.getShuffledTrials(externalCondition, counterBalance);
         this.hostname = experimentParser.getHostname();
         this.participantId = participantId;
         this.counterBalance = counterBalance;
@@ -169,12 +169,12 @@ public class Experiment implements Parcelable {
 
             return String.format(
                     Locale.ENGLISH,
-                    "%d,\"%s\",\"%s\",%d,%d,%.2f,%.2f,%d,%d\n",
+                    "%d,\"%s\",\"%s\",%d,\"%s\",%.2f,%.2f,%d,%d\n",
                     i + 1,
                     this.participantId,
                     trial.getCondition(),
                     trial.getIntensity(),
-                    trial.isFabricOn() ? 1 : 0,
+                    trial.getExternalCondition(),
                     response.getStimulusStarted(),
                     response.getStimulusFelt(),
                     response.getTemperatureFelt(),
@@ -182,8 +182,8 @@ public class Experiment implements Parcelable {
             );
         }).collect(Collectors.toCollection(ArrayList::new));
 
-        String filename = this.participantId + "_" + (this.trials.get(0).isFabricOn() ? "fabricOn" : "fabricOff") + ".csv";
-        String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"fabricOn\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\"\n";
+        String filename = this.participantId + "_" + this.trials.get(0).getExternalCondition() + ".csv";
+        String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"externalCondition\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\"\n";
 
         Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + File.separator + filename);
 
