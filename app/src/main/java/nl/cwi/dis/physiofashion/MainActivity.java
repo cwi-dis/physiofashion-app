@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
+import nl.cwi.dis.physiofashion.experiment.ExperimentParser;
 import nl.cwi.dis.physiofashion.experiment.ExternalCondition;
-import nl.cwi.dis.physiofashion.experiment.JSONExperiment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         participantText = findViewById(R.id.participant_text);
         conditionText = findViewById(R.id.condition_text);
 
-        JSONExperiment experimentData = this.getExperimentJSON();
+        ExperimentParser experimentParser = this.parseExperiment();
 
-        if (experimentData == null || !experimentData.isValidExperiment()) {
+        if (experimentParser == null || !experimentParser.isValidExperiment()) {
             new AlertDialog.Builder(this)
                     .setTitle("Experiment directory")
                     .setMessage("Place your experiment files into the PhysioFashion/ directory on your external storage and restart the app")
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView externalConditionLabel = findViewById(R.id.external_condition_label);
-        ExternalCondition externalCondition = experimentData.getExternalCondition();
+        ExternalCondition externalCondition = experimentParser.getExternalCondition();
 
         externalConditionLabel.setText(externalCondition.getLabel());
 
@@ -122,13 +122,13 @@ public class MainActivity extends AppCompatActivity {
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
 
             Experiment experiment = new Experiment(
-                    experimentData,
+                    experimentParser,
                     participantText.getText().toString().trim(),
                     counterBalance,
                     fabricOn
             );
 
-            String hostname = experimentData.getHostname();
+            String hostname = experimentParser.getHostname();
             this.checkHost(hostname, () -> {
                 Intent nextActivity = new Intent(this, TemperatureChangeActivity.class);
                 nextActivity.putExtra("experiment", experiment);
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(testRequest);
     }
 
-    private JSONExperiment getExperimentJSON() {
+    private ExperimentParser parseExperiment() {
         File storage = Environment.getExternalStorageDirectory();
         File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
 
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-        return new JSONExperiment(jsonFiles[0]);
+        return new ExperimentParser(jsonFiles[0]);
     }
 
     @Override

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class JSONExperiment {
-    private static final String LOG_TAG = "JSONExperiment";
+public class ExperimentParser {
+    private static final String LOG_TAG = "ExperimentParser";
     private JSONObject experiment;
 
-    public JSONExperiment(File experimentFile) {
+    public ExperimentParser(File experimentFile) {
         this.experiment = this.readExperimentFromFile(experimentFile);
     }
 

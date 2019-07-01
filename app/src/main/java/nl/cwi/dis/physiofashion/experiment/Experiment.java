@@ -70,17 +70,17 @@ public class Experiment implements Parcelable {
         this.stimulusPeriod = 10;
     }
 
-    public Experiment(JSONExperiment experimentData, String participantId, int counterBalance, boolean fabricOn) {
-        this.trials = experimentData.getShuffledTrials(fabricOn, counterBalance);
-        this.hostname = experimentData.getHostname();
+    public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, boolean fabricOn) {
+        this.trials = experimentParser.getShuffledTrials(fabricOn, counterBalance);
+        this.hostname = experimentParser.getHostname();
         this.participantId = participantId;
         this.counterBalance = counterBalance;
         this.currentTrial = 0;
         this.responses = new ArrayList<>(trials.size());
-        this.baselineTemp = experimentData.getBaselineTemperature();
-        this.adaptationPeriod = experimentData.getAdaptationPeriod();
-        this.stimulusPeriod = experimentData.getStimulusPeriod();
-        this.clipAlignment = experimentData.getClipAlignment();
+        this.baselineTemp = experimentParser.getBaselineTemperature();
+        this.adaptationPeriod = experimentParser.getAdaptationPeriod();
+        this.stimulusPeriod = experimentParser.getStimulusPeriod();
+        this.clipAlignment = experimentParser.getClipAlignment();
     }
 
     @Override
