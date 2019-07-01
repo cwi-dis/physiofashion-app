@@ -159,7 +159,11 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    nextButton.setEnabled(areTextFieldsPopulated());
+                    boolean allFieldsPopulated = Arrays.stream(textFields).allMatch((e) ->
+                            e.getText().toString().compareTo("") != 0
+                    );
+
+                    nextButton.setEnabled(allFieldsPopulated);
                 }
 
                 @Override
@@ -167,13 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private boolean areTextFieldsPopulated() {
-        String participantName = participantText.getText().toString();
-        String counterbalanceValue = conditionText.getText().toString();
-
-        return participantName.compareTo("") != 0 && counterbalanceValue.compareTo("") != 0;
     }
 
     @FunctionalInterface
