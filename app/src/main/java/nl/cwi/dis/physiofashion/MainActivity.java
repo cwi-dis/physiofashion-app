@@ -193,27 +193,6 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(testRequest);
     }
 
-    private ArrayList<File> readAudioFiles() {
-        File storage = Environment.getExternalStorageDirectory();
-        File audioDir = new File(storage, getResources().getString(R.string.app_name) + "/");
-
-        if (!audioDir.exists()) {
-            Log.d(LOG_TAG, "App directory does not exist");
-            Log.d(LOG_TAG, "Attempting to create directory: " + audioDir.mkdirs());
-
-            return new ArrayList<>();
-        }
-
-        File[] videoFiles = audioDir.listFiles((dir, name) ->
-            name.endsWith(".mp3") || name.endsWith(".wav")
-        );
-
-        Log.d(LOG_TAG, "Audio files: " + videoFiles.length);
-        Arrays.sort(videoFiles);
-
-        return new ArrayList<>(Arrays.asList(videoFiles));
-    }
-
     private JSONExperiment getExperimentJSON() {
         File storage = Environment.getExternalStorageDirectory();
         File experimentDir = new File(storage, getResources().getString(R.string.app_name) + "/");
