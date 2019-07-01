@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_REQUEST = 1;
 
     private Button nextButton;
-    private ToggleButton fabricToggle;
+    private ToggleButton externalConditionToggle;
     private EditText participantText;
     private EditText conditionText;
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         nextButton = findViewById(R.id.main_next_button);
-        fabricToggle = findViewById(R.id.fabric_toggle);
+        externalConditionToggle = findViewById(R.id.external_condition_toggle);
         participantText = findViewById(R.id.participant_text);
         conditionText = findViewById(R.id.condition_text);
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         nextButton.setOnClickListener((View v) -> {
             nextButton.setEnabled(false);
-            boolean fabricOn = fabricToggle.getText() == fabricToggle.getTextOn();
+            boolean fabricOn = externalConditionToggle.getText() == externalConditionToggle.getTextOn();
             int counterBalance = Integer.parseInt(conditionText.getText().toString().trim());
 
             Experiment experiment = new Experiment(
