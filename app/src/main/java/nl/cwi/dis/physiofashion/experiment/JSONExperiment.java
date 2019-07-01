@@ -60,6 +60,32 @@ public class JSONExperiment {
         return experiment.optString("clipAlignment", "center");
     }
 
+    public ExternalCondition getExternalCondition() {
+        ExternalCondition externalCondition = new ExternalCondition();
+
+        if (experiment.has("externalCondition")) {
+            try {
+                JSONObject conditionObj = experiment.getJSONObject("externalCondition");
+                externalCondition.setLabel(conditionObj.getString("label"));
+
+                JSONArray options = conditionObj.getJSONArray("options");
+                for (int i = 0; i < options.length(); i++) {
+                    externalCondition.addOption(options.getString(i));
+                }
+
+                return externalCondition;
+            } catch (JSONException je) {
+                Log.e(LOG_TAG, "Could not parse externalCondition field: " + je);
+            }
+        }
+
+        externalCondition.setLabel("Fabric");
+        externalCondition.addOption("on");
+        externalCondition.addOption("off");
+
+        return externalCondition;
+    }
+
     public int getRepetitions() {
         int repetitions = experiment.optInt("repetitions", 1);
 
