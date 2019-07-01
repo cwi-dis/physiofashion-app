@@ -1,5 +1,6 @@
 {
   "hostname": "http://peltier3.local",
+  "clipAlignment": "center",
   "baselineTemperature": 32,
   "adaptationLength": 20,
   "stimulusLength": 10,
@@ -7,19 +8,23 @@
   "trials": [
     {
       "condition": "cool",
-      "intensity": 3
+      "intensity": 3,
+      "audioFile": "clip1.wav"
     },
     {
       "condition": "cool",
-      "intensity": 6
+      "intensity": 6,
+      "audioFile": "clip2.wav"
     },
     {
       "condition": "warm",
-      "intensity": 3
+      "intensity": 3,
+      "audioFile": "clip3.wav"
     },
     {
       "condition": "warm",
-      "intensity": 6
+      "intensity": 6,
+      "audioFile": "clip4.wav"
     }
   ]
 }
