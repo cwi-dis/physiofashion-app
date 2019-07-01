@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
+import nl.cwi.dis.physiofashion.experiment.ExternalCondition;
 import nl.cwi.dis.physiofashion.experiment.JSONExperiment;
 
 public class MainActivity extends AppCompatActivity {
@@ -101,6 +103,16 @@ public class MainActivity extends AppCompatActivity {
         if (participantId != null) {
             participantText.setText(participantId);
         }
+
+        TextView externalConditionLabel = findViewById(R.id.external_condition_label);
+        ExternalCondition externalCondition = experimentData.getExternalCondition();
+
+        externalConditionLabel.setText(externalCondition.getLabel());
+
+        ArrayList<String> options = externalCondition.getOptions();
+        externalConditionToggle.setTextOff(options.get(0));
+        externalConditionToggle.setTextOn(options.get(1));
+        externalConditionToggle.setChecked(false);
 
         this.watchTextFieldChanges();
 
