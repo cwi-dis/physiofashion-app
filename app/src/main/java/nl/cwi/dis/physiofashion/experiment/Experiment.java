@@ -38,6 +38,7 @@ public class Experiment implements Parcelable {
     private int adaptationPeriod;
     private int stimulusPeriod;
     private String clipAlignment;
+    private int alignmentCorrection;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -56,6 +57,7 @@ public class Experiment implements Parcelable {
         this.stimulusPeriod = in.readInt();
 
         this.clipAlignment = in.readString();
+        this.alignmentCorrection = in.readInt();
     }
 
     public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
@@ -69,6 +71,7 @@ public class Experiment implements Parcelable {
         this.adaptationPeriod = experimentParser.getAdaptationPeriod();
         this.stimulusPeriod = experimentParser.getStimulusPeriod();
         this.clipAlignment = experimentParser.getClipAlignment();
+        this.alignmentCorrection = experimentParser.getAlignmentCorrection();
     }
 
     @Override
@@ -83,6 +86,7 @@ public class Experiment implements Parcelable {
         dest.writeInt(adaptationPeriod);
         dest.writeInt(stimulusPeriod);
         dest.writeString(clipAlignment);
+        dest.writeInt(alignmentCorrection);
     }
 
     @Override
@@ -148,6 +152,10 @@ public class Experiment implements Parcelable {
 
     public String getClipAlignment() {
         return clipAlignment;
+    }
+
+    public int getAlignmentCorrection() {
+        return alignmentCorrection;
     }
 
     public void writeResponsesToFile(File targetDir) {

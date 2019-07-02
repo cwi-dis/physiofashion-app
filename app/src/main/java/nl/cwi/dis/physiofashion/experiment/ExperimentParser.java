@@ -60,6 +60,10 @@ public class ExperimentParser {
         return experiment.optString("clipAlignment", "center");
     }
 
+    public int getAlignmentCorrection() {
+        return experiment.optInt("alignmentCorrection", 0);
+    }
+
     public ExternalCondition getExternalCondition() {
         ExternalCondition externalCondition = new ExternalCondition();
 
