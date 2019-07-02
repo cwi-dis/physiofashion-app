@@ -58,18 +58,6 @@ public class Experiment implements Parcelable {
         this.clipAlignment = in.readString();
     }
 
-    public Experiment(ArrayList<Trial> trials, String hostname, String participantId, int counterBalance) {
-        this.trials = trials;
-        this.hostname = hostname;
-        this.participantId = participantId;
-        this.counterBalance = counterBalance;
-        this.currentTrial = 0;
-        this.responses = new ArrayList<>(trials.size());
-        this.baselineTemp = 32;
-        this.adaptationPeriod = 20;
-        this.stimulusPeriod = 10;
-    }
-
     public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
         this.trials = experimentParser.getShuffledTrials(externalCondition, counterBalance);
         this.hostname = experimentParser.getHostname();
