@@ -191,18 +191,22 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         }
     }
 
-    private int getAudioStartTime(String clipAlignment, int audioDuration, int stimulusDuration) {
+    private int getAudioStartTime(int audioDuration) {
+        String clipAlignment = experiment.getClipAlignment();
+        int stimulusDuration = experiment.getStimulusPeriod() * 1000;
+        int alignmentCorrection = experiment.getAlignmentCorrection() * 1000;
+
         if (audioDuration > stimulusDuration) {
-            return 0;
+            return alignmentCorrection;
         }
 
         if (clipAlignment.compareTo("center") == 0) {
-            return (int)Math.floor((stimulusDuration / 2.0) - (audioDuration / 2.0));
+            return (int)Math.floor((stimulusDuration / 2.0) - (audioDuration / 2.0)) + alignmentCorrection;
         } else if (clipAlignment.compareTo("end") == 0) {
-            return stimulusDuration - audioDuration;
+            return stimulusDuration - audioDuration + alignmentCorrection;
         }
 
-        return 0;
+        return alignmentCorrection;
     }
 
     private void pauseForStimulus() {
@@ -211,7 +215,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         if (currentTrial.hasAudio()) {
             this.loadAudioFile();
-            int startTimeMs = this.getAudioStartTime(experiment.getClipAlignment(), audioPlayer.getDuration(), experiment.getStimulusPeriod() * 1000);
+            int startTimeMs = this.getAudioStartTime(audioPlayer.getDuration());
 
             Log.d(LOG_TAG, "Starting audio playback after " + startTimeMs + "ms");
             new Handler().postDelayed(audioPlayer::start, startTimeMs);
