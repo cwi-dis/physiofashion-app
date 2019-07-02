@@ -192,21 +192,21 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private int getAudioStartTime(int audioDuration) {
+        int startTime = 0;
+
         String clipAlignment = experiment.getClipAlignment();
         int stimulusDuration = experiment.getStimulusPeriod() * 1000;
         int alignmentCorrection = (int)Math.round(experiment.getAlignmentCorrection() * 1000);
 
         if (audioDuration > stimulusDuration) {
-            return alignmentCorrection;
-        }
-
-        if (clipAlignment.compareTo("center") == 0) {
-            return (int)Math.floor((stimulusDuration / 2.0) - (audioDuration / 2.0)) + alignmentCorrection;
+            startTime = alignmentCorrection;
+        } else if (clipAlignment.compareTo("center") == 0) {
+            startTime = (int)Math.floor((stimulusDuration / 2.0) - (audioDuration / 2.0)) + alignmentCorrection;
         } else if (clipAlignment.compareTo("end") == 0) {
-            return stimulusDuration - audioDuration + alignmentCorrection;
+            startTime =  stimulusDuration - audioDuration + alignmentCorrection;
         }
 
-        return alignmentCorrection;
+        return (startTime < 0) ? 0 : startTime;
     }
 
     private void pauseForStimulus() {
