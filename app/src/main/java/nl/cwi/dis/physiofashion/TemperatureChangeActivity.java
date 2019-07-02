@@ -141,7 +141,14 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         Trial currentTrial = experiment.getCurrentTrial();
 
-        int tempChange = (currentTrial.getCondition().compareTo("warm") == 0) ? currentTrial.getIntensity() : -currentTrial.getIntensity();
+        int tempChange = 0;
+
+        if (currentTrial.getCondition().compareTo("warm") == 0) {
+            tempChange = currentTrial.getIntensity();
+        } else if (currentTrial.getCondition().compareTo("cool") == 0) {
+            tempChange = -currentTrial.getIntensity();
+        }
+
         int targetTemp = experiment.getBaselineTemp() + tempChange;
 
         Log.d(LOG_TAG, "Setting target temperature to " + targetTemp);
