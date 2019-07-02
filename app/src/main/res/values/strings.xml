@@ -3,6 +3,7 @@
     <string name="title">Thermal Voice Wear</string>
 
     <string name="empty" />
+    <string name="zero">0</string>
     <string name="number">%1$d</string>
     <string name="trial_counter">%1$d/%2$d</string>
 

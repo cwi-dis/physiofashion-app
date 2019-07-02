@@ -2,6 +2,7 @@ package nl.cwi.dis.physiofashion;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,6 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
 import nl.cwi.dis.physiofashion.experiment.Trial;
@@ -36,7 +35,6 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
     private boolean feelItButtonPressed;
     private String url;
-    private Integer counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,25 +110,21 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private void pauseForAdaptation() {
         Log.d(LOG_TAG, "Pausing for adaptation for " + experiment.getAdaptationPeriod() + " seconds");
 
-        counter = experiment.getAdaptationPeriod();
-        Timer t = new Timer();
-
-        t.scheduleAtFixedRate(new TimerTask() {
+        CountDownTimer countdown = new CountDownTimer(experiment.getAdaptationPeriod() * 1000, 1000) {
             @Override
-            public void run() {
-                runOnUiThread(() -> {
-                    if (counter >= 0) {
-                        String msg = getApplicationContext().getString(R.string.number, counter);
-                        countdownLabel.setText(msg);
-
-                        counter--;
-                    }
-                });
+            public void onTick(long millisUntilFinished) {
+                String msg = getApplicationContext().getString(R.string.number, millisUntilFinished / 1000);
+                countdownLabel.setText(msg);
             }
-        }, 0, 1000);
+
+            @Override
+            public void onFinish() {
+                countdownLabel.setText(R.string.zero);
+            }
+        }.start();
 
         new Handler().postDelayed(() -> {
-            t.cancel();
+            countdown.cancel();
             setTargetTemperature();
         }, experiment.getAdaptationPeriod() * 1000);
     }
@@ -221,26 +215,22 @@ public class TemperatureChangeActivity extends AppCompatActivity {
             new Handler().postDelayed(audioPlayer::start, startTimeMs);
         }
 
-        counter = experiment.getStimulusPeriod();
-        Timer t = new Timer();
-
-        t.scheduleAtFixedRate(new TimerTask() {
+        CountDownTimer countdown = new CountDownTimer(experiment.getStimulusPeriod() * 1000, 1000) {
             @Override
-            public void run() {
-                runOnUiThread(() -> {
-                    if (counter >= 0) {
-                        String msg = getApplicationContext().getString(R.string.number, counter);
-                        countdownLabel.setText(msg);
-
-                        counter--;
-                    }
-                });
+            public void onTick(long millisUntilFinished) {
+                String msg = getApplicationContext().getString(R.string.number, millisUntilFinished / 1000);
+                countdownLabel.setText(msg);
             }
-        }, 0, 1000);
+
+            @Override
+            public void onFinish() {
+                countdownLabel.setText(R.string.zero);
+            }
+        }.start();
 
         new Handler().postDelayed(() -> {
             Log.d(LOG_TAG, "Stimulus wait period passed");
-            t.cancel();
+            countdown.cancel();
 
             if (audioPlayer != null) {
                 audioPlayer.stop();
