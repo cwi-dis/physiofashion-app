@@ -194,7 +194,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private int getAudioStartTime(int audioDuration) {
         String clipAlignment = experiment.getClipAlignment();
         int stimulusDuration = experiment.getStimulusPeriod() * 1000;
-        int alignmentCorrection = experiment.getAlignmentCorrection() * 1000;
+        int alignmentCorrection = (int)Math.round(experiment.getAlignmentCorrection() * 1000);
 
         if (audioDuration > stimulusDuration) {
             return alignmentCorrection;
