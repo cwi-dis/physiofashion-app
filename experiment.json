@@ -1,12 +1,13 @@
 {
   "hostname": "http://peltier3.local",
   "clipAlignment": "center",
+  "alignmentCorrection": 0,
   "externalCondition": {
     "label": "Fabric Location",
-    "options": ["Chest", "Arm"]
+    "options": ["chest", "arm"]
   },
   "baselineTemperature": 32,
-  "adaptationLength": 20,
+  "adaptationLength": 10,
   "stimulusLength": 10,
   "repetitions": 2,
   "trials": [
