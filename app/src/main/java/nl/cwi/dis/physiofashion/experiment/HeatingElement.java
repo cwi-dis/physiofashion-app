@@ -49,6 +49,11 @@ public class HeatingElement {
     }
 
     public void gotoTargetTemperature(String condition, int tempChange, SuccessCallback onSuccess, ErrorCallback onError) {
+        int targetTemp = this.computeTargetTemp(condition, tempChange);
+        this.adjustSetpoint(targetTemp, onSuccess, onError);
+    }
+
+    private int computeTargetTemp(String condition, int tempChange) {
         int targetTemp = baselineTemp;
 
         if (condition.compareTo("warm") == 0) {
@@ -57,7 +62,7 @@ public class HeatingElement {
             targetTemp -= tempChange;
         }
 
-        this.adjustSetpoint(targetTemp, onSuccess, onError);
+        return targetTemp;
     }
 
     private void adjustSetpoint(int targetTemp, SuccessCallback onSuccess, ErrorCallback onError) {
