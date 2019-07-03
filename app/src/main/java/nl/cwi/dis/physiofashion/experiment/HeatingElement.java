@@ -78,4 +78,24 @@ public class HeatingElement {
 
         queue.add(adjustRequest);
     }
+
+    public void getTemperature(TemperatureCallback onSuccess, ErrorCallback onError) {
+        String url = hostname + "/api/temperature";
+
+        JsonObjectRequest tempRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        onSuccess.apply(response.getDouble("temperature"));
+                    } catch (JSONException je) {
+                        onError.apply(null);
+                    }
+                },
+                onError::apply
+        );
+
+        queue.add(tempRequest);
+    }
 }
