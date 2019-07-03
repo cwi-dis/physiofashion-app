@@ -11,15 +11,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import java.io.File;
 import java.io.IOException;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
+import nl.cwi.dis.physiofashion.experiment.HeatingElement;
 import nl.cwi.dis.physiofashion.experiment.Trial;
 
 public class TemperatureChangeActivity extends AppCompatActivity {
@@ -30,7 +26,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private TextView countdownLabel;
 
     private Experiment experiment;
-    private RequestQueue queue;
+    private HeatingElement heatingElement;
     private MediaPlayer audioPlayer;
 
     private boolean feelItButtonPressed;
@@ -71,7 +67,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
             );
         });
 
-        queue = Volley.newRequestQueue(this);
+        heatingElement = new HeatingElement(this, experiment.getHostname(), experiment.getBaselineTemp());
         this.setBaselineTemperature();
     }
 
@@ -88,23 +84,11 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private void setBaselineTemperature() {
         Log.d(LOG_TAG, "Setting baseline temperature: " + experiment.getBaselineTemp());
 
-        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response ->
-            this.pauseForAdaptation()
-        , error ->
+        heatingElement.returnToBaseline(
+            this::pauseForAdaptation
+        , (error) ->
             Log.e(LOG_TAG, "Could not set adapation setpoint: " + error)
-        ) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
-
-            @Override
-            public byte[] getBody() {
-                return ("{ \"setpoint\": " + experiment.getBaselineTemp() + " }").getBytes();
-            }
-        };
-
-        queue.add(baselineRequest);
+        );
     }
 
     private void pauseForAdaptation() {
@@ -135,38 +119,17 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         Trial currentTrial = experiment.getCurrentTrial();
 
-        int tempChange = 0;
-
-        if (currentTrial.getCondition().compareTo("warm") == 0) {
-            tempChange = currentTrial.getIntensity();
-        } else if (currentTrial.getCondition().compareTo("cool") == 0) {
-            tempChange = -currentTrial.getIntensity();
-        }
-
-        int targetTemp = experiment.getBaselineTemp() + tempChange;
-
-        Log.d(LOG_TAG, "Setting target temperature to " + targetTemp);
-
-        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response -> {
-            experiment.getCurrentUserResponse().setStimulusStarted(
-                    System.currentTimeMillis() / 1000.0
-            );
-            this.pauseForStimulus();
-        }, error ->
-            Log.e(LOG_TAG, "Could not set target setpoint: " + error)
-        ) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
-
-            @Override
-            public byte[] getBody() {
-                return ("{ \"setpoint\": " + targetTemp + " }").getBytes();
-            }
-        };
-
-        queue.add(baselineRequest);
+        heatingElement.gotoTargetTemperature(
+                currentTrial.getCondition(),
+                currentTrial.getIntensity(),
+                () -> {
+                    experiment.getCurrentUserResponse().setStimulusStarted(
+                            System.currentTimeMillis() / 1000.0
+                    );
+                    this.pauseForStimulus();
+                },
+                (error) -> Log.e(LOG_TAG, "Could not set target setpoint: " + error)
+        );
     }
 
     private void loadAudioFile() {
@@ -251,23 +214,11 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void launchRatingActivity() {
-        StringRequest baselineRequest = new StringRequest(Request.Method.PUT, url, response ->
+        heatingElement.returnToBaseline(() ->
             Log.d(LOG_TAG, "Returned to baseline temperature")
         , error ->
             Log.e(LOG_TAG, "Could not return to baseline temperature: " + error)
-        ) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
-
-            @Override
-            public byte[] getBody() {
-                return ("{ \"setpoint\": " + experiment.getBaselineTemp() + " }").getBytes();
-            }
-        };
-
-        queue.add(baselineRequest);
+        );
 
         Intent ratingIntent = new Intent(this, RatingActivity.class);
         ratingIntent.putExtra("experiment", experiment);
