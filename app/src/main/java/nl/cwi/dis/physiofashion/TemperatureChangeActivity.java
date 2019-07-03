@@ -150,16 +150,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
                 audioPlayer.stop();
                 audioPlayer.release();
 
-                if (feelItButtonPressed) {
-                    launchRatingActivity();
-                } else {
-                    feelItButton.setOnClickListener(v -> {
-                        experiment.getCurrentUserResponse().setStimulusFelt(
-                                System.currentTimeMillis() / 1000.0
-                        );
-                        launchRatingActivity();
-                    });
-                }
+                waitForButtonPress();
             });
         }, error -> {});
     }
@@ -235,17 +226,21 @@ public class TemperatureChangeActivity extends AppCompatActivity {
                 audioPlayer.release();
             }
 
-            if (feelItButtonPressed) {
-                launchRatingActivity();
-            } else {
-                feelItButton.setOnClickListener(v -> {
-                    experiment.getCurrentUserResponse().setStimulusFelt(
-                            System.currentTimeMillis() / 1000.0
-                    );
-                    launchRatingActivity();
-                });
-            }
+            waitForButtonPress();
         }, experiment.getStimulusPeriod() * 1000);
+    }
+
+    private void waitForButtonPress() {
+        if (feelItButtonPressed) {
+            launchRatingActivity();
+        } else {
+            feelItButton.setOnClickListener(v -> {
+                experiment.getCurrentUserResponse().setStimulusFelt(
+                        System.currentTimeMillis() / 1000.0
+                );
+                launchRatingActivity();
+            });
+        }
     }
 
     private void launchRatingActivity() {
