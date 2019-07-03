@@ -108,10 +108,11 @@ public class HeatingElement {
         queue.add(tempRequest);
     }
 
-    public void onTemperatureReached(double targetTemp, long timeoutMs, SuccessCallback onSuccess, ErrorCallback onError) {
-        Timer t = new Timer();
-
+    public void onTemperatureReached(String condition, int tempChange, long timeoutMs, SuccessCallback onSuccess, ErrorCallback onError) {
         long timeoutAt = System.currentTimeMillis() + timeoutMs;
+        int targetTemp = this.computeTargetTemp(condition, tempChange);
+
+        Timer t = new Timer();
 
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -122,7 +123,12 @@ public class HeatingElement {
                 }
 
                 getTemperature(temp -> {
-                    if (temp >= targetTemp) {
+                    Log.d(LOG_TAG, "Waiting for temperature to approach " + targetTemp + ": " + temp);
+
+                    if (condition.compareTo("warm") == 0 && temp >= targetTemp) {
+                        onSuccess.apply();
+                        t.cancel();
+                    } else if (condition.compareTo("cool") == 0 && temp <= targetTemp) {
                         onSuccess.apply();
                         t.cancel();
                     }
