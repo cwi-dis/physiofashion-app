@@ -30,7 +30,6 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private MediaPlayer audioPlayer;
 
     private boolean feelItButtonPressed;
-    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +39,6 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         experiment = intent.getParcelableExtra("experiment");
         this.logCurrentTrial();
-
-        url = experiment.getHostname() + "/api/setpoint";
 
         feelItButton = findViewById(R.id.feel_it_button);
         tempChangeLabel = findViewById(R.id.temp_change_label);
