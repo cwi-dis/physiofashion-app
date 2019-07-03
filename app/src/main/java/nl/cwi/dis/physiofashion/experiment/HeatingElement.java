@@ -1,6 +1,7 @@
 package nl.cwi.dis.physiofashion.experiment;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -11,6 +12,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class HeatingElement {
     private static final String LOG_TAG = "HeatingElement";
 
@@ -20,7 +24,7 @@ public class HeatingElement {
     }
 
     @FunctionalInterface
-    public interface SetpointCallback {
+    public interface SuccessCallback {
         void apply();
     }
 
@@ -40,11 +44,11 @@ public class HeatingElement {
         this.queue = Volley.newRequestQueue(context);
     }
 
-    public void returnToBaseline(SetpointCallback onSuccess, ErrorCallback onError) {
+    public void returnToBaseline(SuccessCallback onSuccess, ErrorCallback onError) {
         this.adjustSetpoint(baselineTemp, onSuccess, onError);
     }
 
-    public void gotoTargetTemperature(String condition, int tempChange, SetpointCallback onSuccess, ErrorCallback onError) {
+    public void gotoTargetTemperature(String condition, int tempChange, SuccessCallback onSuccess, ErrorCallback onError) {
         int targetTemp = baselineTemp;
 
         if (condition.compareTo("warm") == 0) {
@@ -56,7 +60,7 @@ public class HeatingElement {
         this.adjustSetpoint(targetTemp, onSuccess, onError);
     }
 
-    private void adjustSetpoint(int targetTemp, SetpointCallback onSuccess, ErrorCallback onError) {
+    private void adjustSetpoint(int targetTemp, SuccessCallback onSuccess, ErrorCallback onError) {
         String url = hostname + "/api/setpoint";
 
         StringRequest adjustRequest = new StringRequest(
@@ -97,5 +101,31 @@ public class HeatingElement {
         );
 
         queue.add(tempRequest);
+    }
+
+    public void onTemperatureReached(double targetTemp, long timeoutMs, SuccessCallback onSuccess, ErrorCallback onError) {
+        Timer t = new Timer();
+
+        long timeoutAt = System.currentTimeMillis() + timeoutMs;
+
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (System.currentTimeMillis() > timeoutAt) {
+                    onError.apply(null);
+                    t.cancel();
+                }
+
+                getTemperature(temp -> {
+                    if (temp >= targetTemp) {
+                        onSuccess.apply();
+                        t.cancel();
+                    }
+                }, error -> {
+                    onError.apply(error);
+                    t.cancel();
+                });
+            }
+        }, 0, 100);
     }
 }
