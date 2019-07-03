@@ -126,7 +126,12 @@ public class TemperatureChangeActivity extends AppCompatActivity {
                     experiment.getCurrentUserResponse().setStimulusStarted(
                             System.currentTimeMillis() / 1000.0
                     );
-                    this.pauseForStimulus();
+
+                    if (experiment.getStimulusPeriod() == 0) {
+                        this.pauseUntilTargetReached();
+                    } else {
+                        this.pauseForStimulus();
+                    }
                 },
                 (error) -> Log.e(LOG_TAG, "Could not set target setpoint: " + error)
         );
