@@ -111,9 +111,6 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void setTargetTemperature() {
-        feelItButton.setEnabled(true);
-        tempChangeLabel.setText(R.string.wait_stimulus);
-
         Trial currentTrial = experiment.getCurrentTrial();
 
         heatingElement.gotoTargetTemperature(
@@ -135,10 +132,15 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseUntilTargetReached() {
+        tempChangeLabel.setText(R.string.wait_temperature);
+
         Trial currentTrial = experiment.getCurrentTrial();
 
         heatingElement.onTemperatureReached(currentTrial.getCondition(), currentTrial.getIntensity(), 10000, () -> {
             Log.d(LOG_TAG, "Target temperature reached, playing audio file");
+            tempChangeLabel.setText(R.string.playing_audio);
+            feelItButton.setEnabled(true);
+
             loadAudioFile();
             audioPlayer.start();
 
@@ -148,11 +150,16 @@ public class TemperatureChangeActivity extends AppCompatActivity {
                 audioPlayer.stop();
                 audioPlayer.release();
 
-                experiment.getCurrentUserResponse().setStimulusFelt(
-                        System.currentTimeMillis() / 1000.0
-                );
-
-                launchRatingActivity();
+                if (feelItButtonPressed) {
+                    launchRatingActivity();
+                } else {
+                    feelItButton.setOnClickListener(v -> {
+                        experiment.getCurrentUserResponse().setStimulusFelt(
+                                System.currentTimeMillis() / 1000.0
+                        );
+                        launchRatingActivity();
+                    });
+                }
             });
         }, error -> {});
     }
@@ -192,6 +199,9 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseForStimulus() {
+        feelItButton.setEnabled(true);
+        tempChangeLabel.setText(R.string.wait_stimulus);
+
         Trial currentTrial = experiment.getCurrentTrial();
         Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
 
