@@ -132,6 +132,29 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         );
     }
 
+    private void pauseUntilTargetReached() {
+        Trial currentTrial = experiment.getCurrentTrial();
+
+        heatingElement.onTemperatureReached(currentTrial.getCondition(), currentTrial.getIntensity(), 10000, () -> {
+            Log.d(LOG_TAG, "Target temperature reached, playing audio file");
+            loadAudioFile();
+            audioPlayer.start();
+
+            audioPlayer.setOnCompletionListener(mp -> {
+                Log.d(LOG_TAG, "Clip finished playing");
+
+                audioPlayer.stop();
+                audioPlayer.release();
+
+                experiment.getCurrentUserResponse().setStimulusFelt(
+                        System.currentTimeMillis() / 1000.0
+                );
+
+                launchRatingActivity();
+            });
+        }, error -> {});
+    }
+
     private void loadAudioFile() {
         Trial currentTrial = experiment.getCurrentTrial();
         audioPlayer = new MediaPlayer();
