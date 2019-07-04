@@ -100,16 +100,50 @@ public class ExperimentParser {
         return repetitions;
     }
 
+    public ArrayList<String> getAudioFiles(String type) {
+        ArrayList<String> result = new ArrayList<>();
+
+        try {
+            JSONObject audioFiles = experiment.getJSONObject("audioFiles");
+            JSONArray filesOfType = audioFiles.getJSONArray(type);
+
+            for (int i=0; i<filesOfType.length(); i++) {
+                result.add(filesOfType.getString(i));
+            }
+        } catch (JSONException je) {
+            return new ArrayList<>();
+        }
+
+        return result;
+    }
+
     public ArrayList<Trial> getShuffledTrials(String externalCondition, int counterbalance) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
             ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
 
+            ArrayList<String> positiveMessages = this.getAudioFiles("positive");
+            ArrayList<String> negativeMessages = this.getAudioFiles("negative");
+
+            Collections.shuffle(positiveMessages);
+            Collections.shuffle(negativeMessages);
+
             for (int i=0; i<trials.length(); i++) {
                 JSONObject trialObject = (JSONObject) trials.get(i);
 
+                String audioType = trialObject.optString("audioType", null);
+                String audioFile = null;
+
+                if (audioType != null) {
+                    if (audioType.compareTo("positive") == 0) {
+                        audioFile = positiveMessages.remove(0);
+                    } else if (audioType.compareTo("negative") == 0) {
+                        audioFile = negativeMessages.remove(0);
+                    }
+                }
+
                 initialTrials.add(new Trial(
-                        trialObject.optString("audioFile", null),
+                        audioFile,
                         trialObject.getString("condition"),
                         trialObject.optInt("intensity", 0),
                         externalCondition

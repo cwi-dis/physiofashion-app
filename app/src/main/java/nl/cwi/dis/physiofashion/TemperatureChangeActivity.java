@@ -136,7 +136,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
 
         Trial currentTrial = experiment.getCurrentTrial();
 
-        heatingElement.onTemperatureReached(currentTrial.getCondition(), currentTrial.getIntensity(), 10000, () -> {
+        heatingElement.onTemperatureReached(currentTrial.getCondition(), currentTrial.getIntensity(), 10000, temp -> {
             Log.d(LOG_TAG, "Target temperature reached, playing audio file");
             tempChangeLabel.setText(R.string.playing_audio);
             feelItButton.setEnabled(true);
