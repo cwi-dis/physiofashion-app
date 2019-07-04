@@ -14,6 +14,10 @@
     "positive": ["clip1.wav", "clip2.wav", "clip3.wav"],
     "negative": ["clip4.wav", "clip5.wav", "clip6.wav"]
   },
+  "pauses": {
+    "pauseAfter": [5],
+    "duration": 30
+  },
   "trials": [
     {
       "condition": "cool",
