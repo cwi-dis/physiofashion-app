@@ -131,6 +131,11 @@ public class HeatingElement {
                     } else if (condition.compareTo("cool") == 0 && temp <= targetTemp) {
                         onSuccess.apply(temp);
                         t.cancel();
+                    } else if (condition.compareTo("baseline") == 0) {
+                        if (temp >= targetTemp - 0.2 || temp <= targetTemp + 0.2) {
+                            onSuccess.apply(temp);
+                            t.cancel();
+                        }
                     }
                 }, error -> {
                     onError.apply(error);
