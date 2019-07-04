@@ -35,7 +35,9 @@ public class RatingActivity extends AppCompatActivity {
 
             Intent nextActivity;
 
-            if (nextTrial == null) {
+            if (experiment.shouldExperimentPause()) {
+                nextActivity = new Intent(this, PauseActivity.class);
+            } else if (nextTrial == null) {
                 nextActivity = new Intent(this, EndingActivity.class);
             } else {
                 nextActivity = new Intent(this, TemperatureChangeActivity.class);
