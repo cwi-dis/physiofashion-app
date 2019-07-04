@@ -142,6 +142,10 @@ public class Experiment implements Parcelable {
         return breaks.size() == 1;
     }
 
+    public boolean shouldExternalConditionChange() {
+        return this.getCurrentTrialIndex() == (this.getTrials().size() / 2);
+    }
+
     public int getBreakDuration() {
         return breakDuration;
     }
