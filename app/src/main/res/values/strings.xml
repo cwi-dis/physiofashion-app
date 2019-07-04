@@ -29,4 +29,6 @@
 
     <string name="return_to_start">Return to start</string>
     <string name="thanks">Thank you for participating!</string>
+    <string name="continue_experiment">Continue</string>
+    <string name="pause">Take a break while the timer is counting down</string>
 </resources>
