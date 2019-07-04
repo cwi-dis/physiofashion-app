@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,6 +40,8 @@ public class Experiment implements Parcelable {
     private int stimulusPeriod;
     private String clipAlignment;
     private double alignmentCorrection;
+    private int breakDuration;
+    private ArrayList<Integer> breakAfter;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -58,6 +61,10 @@ public class Experiment implements Parcelable {
 
         this.clipAlignment = in.readString();
         this.alignmentCorrection = in.readDouble();
+
+        this.breakDuration = in.readInt();
+        this.breakAfter = new ArrayList<>();
+        in.readList(this.breakAfter, null);
     }
 
     public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
@@ -72,6 +79,8 @@ public class Experiment implements Parcelable {
         this.stimulusPeriod = experimentParser.getStimulusPeriod();
         this.clipAlignment = experimentParser.getClipAlignment();
         this.alignmentCorrection = experimentParser.getAlignmentCorrection();
+        this.breakDuration = experimentParser.getPauseDuration();
+        this.breakAfter = experimentParser.getPauseIndices();
     }
 
     @Override
@@ -87,6 +96,8 @@ public class Experiment implements Parcelable {
         dest.writeInt(stimulusPeriod);
         dest.writeString(clipAlignment);
         dest.writeDouble(alignmentCorrection);
+        dest.writeInt(breakDuration);
+        dest.writeList(breakAfter);
     }
 
     @Override
@@ -124,6 +135,15 @@ public class Experiment implements Parcelable {
 
     public int getCurrentTrialIndex() {
         return this.currentTrial;
+    }
+
+    public boolean shouldExperimentPause() {
+        List<Integer> breaks = this.breakAfter.stream().filter(n -> n == this.getCurrentTrialIndex() - 1).collect(Collectors.toList());
+        return breaks.size() == 1;
+    }
+
+    public int getBreakDuration() {
+        return breakDuration;
     }
 
     public UserResponse getCurrentUserResponse() {
