@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ExperimentParser {
     private static final String LOG_TAG = "ExperimentParser";
@@ -146,10 +147,20 @@ public class ExperimentParser {
         return result;
     }
 
-    public ArrayList<Trial> getShuffledTrials(String externalCondition, int counterbalance) {
+    private ArrayList<String> sortExternalConditionOptions(String first) {
+        ArrayList<String> externalConditions = this.getExternalCondition().getOptions();
+        ArrayList<String> result = new ArrayList<>();
+
+        result.add(first);
+        result.addAll(externalConditions.stream().filter(x -> x.compareTo(first) != 0).collect(Collectors.toList()));
+
+        return result;
+    }
+
+    public ArrayList<Trial> getShuffledTrials(String firstExternalCondition, int counterbalance) {
         try {
             JSONArray trials = experiment.getJSONArray("trials");
-            ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
+            ArrayList<Trial> finalList = new ArrayList<>();
 
             ArrayList<String> positiveMessages = this.getAudioFiles("positive");
             ArrayList<String> negativeMessages = this.getAudioFiles("negative");
@@ -157,44 +168,50 @@ public class ExperimentParser {
             Collections.shuffle(positiveMessages);
             Collections.shuffle(negativeMessages);
 
-            for (int i=0; i<trials.length(); i++) {
-                JSONObject trialObject = (JSONObject) trials.get(i);
+            for (String externalCondition : this.sortExternalConditionOptions(firstExternalCondition)) {
+                ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
 
-                String audioType = trialObject.optString("audioType", null);
-                String audioFile = null;
+                for (int i = 0; i < trials.length(); i++) {
+                    JSONObject trialObject = (JSONObject) trials.get(i);
 
-                if (audioType != null) {
-                    if (audioType.compareTo("positive") == 0) {
-                        audioFile = positiveMessages.remove(0);
-                    } else if (audioType.compareTo("negative") == 0) {
-                        audioFile = negativeMessages.remove(0);
+                    String audioType = trialObject.optString("audioType", null);
+                    String audioFile = null;
+
+                    if (audioType != null) {
+                        if (audioType.compareTo("positive") == 0) {
+                            audioFile = positiveMessages.remove(0);
+                        } else if (audioType.compareTo("negative") == 0) {
+                            audioFile = negativeMessages.remove(0);
+                        }
                     }
+
+                    initialTrials.add(new Trial(
+                            audioFile,
+                            trialObject.getString("condition"),
+                            trialObject.optInt("intensity", 0),
+                            externalCondition
+                    ));
                 }
 
-                initialTrials.add(new Trial(
-                        audioFile,
-                        trialObject.getString("condition"),
-                        trialObject.optInt("intensity", 0),
-                        externalCondition
-                ));
+                int repetitions = this.getRepetitions();
+                ArrayList<Trial> listWithRepetitions = new ArrayList<>(trials.length() * repetitions);
+
+                for (int i = 0; i < repetitions; i++) {
+                    listWithRepetitions.addAll(initialTrials);
+                }
+
+                Trial counterBalanceTrial = listWithRepetitions.remove(counterbalance);
+                Collections.shuffle(listWithRepetitions);
+
+                ArrayList<Trial> shuffledList = new ArrayList<>(trials.length() * repetitions);
+
+                shuffledList.add(counterBalanceTrial);
+                shuffledList.addAll(listWithRepetitions);
+
+                finalList.addAll(shuffledList);
             }
 
-            int repetitions = this.getRepetitions();
-            ArrayList<Trial> listWithRepetitions = new ArrayList<>(trials.length() * repetitions);
-
-            for (int i=0; i<repetitions; i++) {
-                listWithRepetitions.addAll(initialTrials);
-            }
-
-            Trial counterBalanceTrial = listWithRepetitions.remove(counterbalance);
-            Collections.shuffle(listWithRepetitions);
-
-            ArrayList<Trial> shuffledList = new ArrayList<>(trials.length() * repetitions);
-
-            shuffledList.add(counterBalanceTrial);
-            shuffledList.addAll(listWithRepetitions);
-
-            return shuffledList;
+            return finalList;
         } catch (JSONException je) {
             Log.e(LOG_TAG, "Could not parse JSON: " + je);
             return new ArrayList<>();
