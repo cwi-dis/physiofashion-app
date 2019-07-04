@@ -37,6 +37,9 @@ public class RatingActivity extends AppCompatActivity {
 
             if (experiment.shouldExperimentPause()) {
                 nextActivity = new Intent(this, PauseActivity.class);
+            } else if (experiment.shouldExternalConditionChange()) {
+                nextActivity = new Intent(this, PauseActivity.class);
+                nextActivity.putExtra("noCountdown", true);
             } else if (nextTrial == null) {
                 nextActivity = new Intent(this, EndingActivity.class);
             } else {
