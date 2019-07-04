@@ -10,26 +10,40 @@
   "adaptationLength": 10,
   "stimulusLength": 10,
   "repetitions": 2,
+  "audioFiles": {
+    "positive": ["clip1.wav", "clip2.wav", "clip3.wav"],
+    "negative": ["clip4.wav", "clip5.wav", "clip6.wav"]
+  },
   "trials": [
     {
       "condition": "cool",
       "intensity": 3,
-      "audioFile": "clip1.wav"
-    },
-    {
-      "condition": "cool",
-      "intensity": 6,
-      "audioFile": "clip2.wav"
+      "audioType": "positive"
     },
     {
       "condition": "warm",
       "intensity": 3,
-      "audioFile": "clip3.wav"
+      "audioType": "positive"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioType": "positive"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioType": "negative"
     },
     {
       "condition": "warm",
-      "intensity": 6,
-      "audioFile": "clip4.wav"
+      "intensity": 3,
+      "audioType": "negative"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioType": "negative"
     }
   ]
 }
