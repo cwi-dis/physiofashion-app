@@ -100,6 +100,35 @@ public class ExperimentParser {
         return repetitions;
     }
 
+    public int getPauseDuration() {
+        try {
+            JSONObject pauses = experiment.getJSONObject("pauses");
+            return pauses.optInt("duration", 0);
+        } catch (JSONException je) {
+            Log.e(LOG_TAG, "Could not parse pauses field: " + je);
+        }
+
+        return 0;
+    }
+
+    public ArrayList<Integer> getPauseIndices() {
+        ArrayList<Integer> pauseIndices = new ArrayList<>();
+
+        try {
+            JSONObject pauses = experiment.getJSONObject("pauses");
+            JSONArray pauseAfter = pauses.getJSONArray("pauseAfter");
+
+            for (int i=0; i<pauseAfter.length(); i++) {
+                pauseIndices.add(pauseAfter.getInt(i));
+            }
+        } catch (JSONException je) {
+            Log.e(LOG_TAG, "Could not parse pauses field: " + je);
+            return new ArrayList<>();
+        }
+
+        return pauseIndices;
+    }
+
     public ArrayList<String> getAudioFiles(String type) {
         ArrayList<String> result = new ArrayList<>();
 
