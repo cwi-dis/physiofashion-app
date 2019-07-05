@@ -45,6 +45,36 @@
     {
       "condition": "cool",
       "intensity": 3,
+      "audioType": "positive"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioType": "positive"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioType": "positive"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioType": "negative"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioType": "negative"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioType": "negative"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
       "audioType": "negative"
     },
     {
