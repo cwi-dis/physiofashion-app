@@ -1,21 +1,29 @@
 {
   "hostname": "http://peltier3.local",
-  "clipAlignment": "center",
+  "clipAlignment": "start",
   "alignmentCorrection": 0,
   "externalCondition": {
     "label": "Fabric Location",
     "options": ["chest", "arm"]
   },
   "baselineTemperature": 32,
-  "adaptationLength": 10,
-  "stimulusLength": 10,
-  "repetitions": 2,
+  "adaptationLength": 5,
+  "stimulusLength": 4,
+  "repetitions": 1,
   "audioFiles": {
-    "positive": ["clip1.wav", "clip2.wav", "clip3.wav"],
-    "negative": ["clip4.wav", "clip5.wav", "clip6.wav"]
+    "positive": [
+      "positive_1.m4a", "positive_2.m4a", "positive_3.m4a", "positive_4.m4a",
+      "positive_5.m4a", "positive_6.m4a", "positive_7.m4a", "positive_8.m4a",
+      "positive_9.m4a", "positive_10.m4a", "positive_11.m4a", "positive_12.m4a"
+    ],
+    "negative": [
+      "negative_1.m4a", "negative_2.m4a", "negative_3.m4a", "negative_4.m4a",
+      "negative_5.m4a", "negative_6.m4a", "negative_7.m4a", "negative_8.m4a",
+      "negative_9.m4a", "negative_10.m4a", "negative_11.m4a", "negative_12.m4a"
+    ]
   },
   "pauses": {
-    "pauseAfter": [5],
+    "pauseAfter": [5, 17],
     "duration": 30
   },
   "trials": [
