@@ -203,7 +203,7 @@ public class Experiment implements Parcelable {
             );
         }).collect(Collectors.toCollection(ArrayList::new));
 
-        String filename = this.participantId + "_" + this.trials.get(0).getExternalCondition() + ".csv";
+        String filename = this.participantId + ".csv";
         String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"externalCondition\",\"audioFile\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\"\n";
 
         Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + File.separator + filename);
