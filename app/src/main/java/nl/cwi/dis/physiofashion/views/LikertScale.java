@@ -1,4 +1,4 @@
-package nl.cwi.dis.physiofashion;
+package nl.cwi.dis.physiofashion.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import nl.cwi.dis.physiofashion.R;
 
 public class LikertScale extends ConstraintLayout {
     public LikertScale(Context context) {

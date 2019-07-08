@@ -3,13 +3,12 @@ package nl.cwi.dis.physiofashion;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.SeekBar;
 
 import nl.cwi.dis.physiofashion.experiment.Experiment;
 import nl.cwi.dis.physiofashion.experiment.Trial;
 import nl.cwi.dis.physiofashion.experiment.UserResponse;
+import nl.cwi.dis.physiofashion.views.LikertScale;
 
 public class RatingActivity extends AppCompatActivity {
 

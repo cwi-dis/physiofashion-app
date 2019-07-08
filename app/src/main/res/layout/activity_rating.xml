@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comfort_scale" />
 
-    <nl.cwi.dis.physiofashion.LikertScale
+    <nl.cwi.dis.physiofashion.views.LikertScale
         android:id="@+id/temperature_scale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <nl.cwi.dis.physiofashion.LikertScale
+    <nl.cwi.dis.physiofashion.views.LikertScale
         android:id="@+id/comfort_scale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
