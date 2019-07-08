@@ -48,6 +48,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
 
         for (int i=1; i<=5; i++) {
             ImageView manikin = (ImageView) getChildAt(i);
+            manikin.setAlpha(0.25f);
             ViewGroup.LayoutParams params = manikin.getLayoutParams();
 
             if (type == ManikinType.VALENCE) {
@@ -57,10 +58,10 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             manikin.setOnClickListener(v -> {
                 for (int j=1; j<=5; j++) {
                     ImageView otherManikin = (ImageView) getChildAt(j);
-                    otherManikin.setBackgroundColor(Color.TRANSPARENT);
+                    otherManikin.setAlpha(0.25f);
                 }
 
-                v.setBackgroundColor(Color.argb(127, 0, 131, 118));
+                v.setAlpha(1);
             });
 
             params.width = size;
