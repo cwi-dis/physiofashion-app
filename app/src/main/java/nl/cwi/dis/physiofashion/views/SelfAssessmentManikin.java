@@ -2,7 +2,6 @@ package nl.cwi.dis.physiofashion.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -24,6 +23,8 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             R.drawable.ic_valence_4,
             R.drawable.ic_valence_5,
     };
+
+    private int selectedValue = -1;
 
     public SelfAssessmentManikin(Context context) {
         super(context, null);
@@ -47,6 +48,8 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         titleView.setText(title);
 
         for (int i=1; i<=5; i++) {
+            final int index = i;
+
             ImageView manikin = (ImageView) getChildAt(i);
             manikin.setAlpha(0.25f);
             ViewGroup.LayoutParams params = manikin.getLayoutParams();
@@ -61,6 +64,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
                     otherManikin.setAlpha(0.25f);
                 }
 
+                this.selectedValue = index;
                 v.setAlpha(1);
             });
 
@@ -73,15 +77,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
     }
 
     public int getSelectedValue() {
-        for (int i=1; i<=5; i++) {
-            ImageView manikin = (ImageView) getChildAt(i);
-
-            if (manikin.getAlpha() == 1) {
-                return i-1;
-            }
-        }
-
-        return -1;
+        return selectedValue;
     }
 
     private ManikinType getManikinType(int value) {
