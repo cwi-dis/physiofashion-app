@@ -12,11 +12,10 @@
 
     <declare-styleable name="SelfAssessmentManikin">
         <attr name="title" />
-        <attr name="leftLabel" />
-        <attr name="rightLabel" />
-        <attr name="scaleType">
-            <flag name="FIVE_POINT" value="5" />
-            <flag name="NINE_POINT" value="9" />
+        <attr name="size" format="dimension" />
+        <attr name="manikinType">
+            <flag name="AROUSAL" value="0" />
+            <flag name="VALENCE" value="1" />
         </attr>
     </declare-styleable>
 </resources>
