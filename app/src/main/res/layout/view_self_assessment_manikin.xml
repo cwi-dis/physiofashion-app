@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/arousal_1"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/arousal_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView4"
+        android:src="@drawable/ic_arousal_1" />
+
+    <ImageView
+        android:id="@+id/arousal_2"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/arousal_3"
+        app:layout_constraintStart_toEndOf="@+id/arousal_1"
+        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        android:src="@drawable/ic_arousal_2" />
+
+    <ImageView
+        android:id="@+id/arousal_3"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/arousal_4"
+        app:layout_constraintStart_toEndOf="@+id/arousal_2"
+        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        android:src="@drawable/ic_arousal_3" />
+
+    <ImageView
+        android:id="@+id/arousal_4"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/arousal_5"
+        app:layout_constraintStart_toEndOf="@+id/arousal_3"
+        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        android:src="@drawable/ic_arousal_4" />
+
+    <ImageView
+        android:id="@+id/arousal_5"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/arousal_4"
+        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        android:src="@drawable/ic_arousal_5" />
+</merge>
