@@ -2,6 +2,7 @@ package nl.cwi.dis.physiofashion.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -52,6 +53,15 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             if (type == ManikinType.VALENCE) {
                 manikin.setImageResource(VALENCE_MANIKINS[i-1]);
             }
+
+            manikin.setOnClickListener(v -> {
+                for (int j=1; j<=5; j++) {
+                    ImageView otherManikin = (ImageView) getChildAt(j);
+                    otherManikin.setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                v.setBackgroundColor(Color.argb(127, 0, 131, 118));
+            });
 
             params.width = size;
             params.height = size;
