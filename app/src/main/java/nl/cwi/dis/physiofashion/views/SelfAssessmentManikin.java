@@ -12,6 +12,18 @@ import android.widget.TextView;
 import nl.cwi.dis.physiofashion.R;
 
 public class SelfAssessmentManikin extends ConstraintLayout {
+    private enum ManikinType {
+        AROUSAL, VALENCE
+    }
+
+    private final int[] VALENCE_MANIKINS = new int[] {
+            R.drawable.ic_valence_1,
+            R.drawable.ic_valence_2,
+            R.drawable.ic_valence_3,
+            R.drawable.ic_valence_4,
+            R.drawable.ic_valence_5,
+    };
+
     public SelfAssessmentManikin(Context context) {
         super(context, null);
     }
@@ -26,6 +38,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
 
         String title = attrs.getString(R.styleable.SelfAssessmentManikin_title);
         int size = attrs.getDimensionPixelSize(R.styleable.SelfAssessmentManikin_size, 0);
+        ManikinType type = getManikinType(attrs.getInt(R.styleable.SelfAssessmentManikin_manikinType,0));
 
         attrs.recycle();
 
@@ -36,6 +49,10 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             ImageView manikin = (ImageView) getChildAt(i);
             ViewGroup.LayoutParams params = manikin.getLayoutParams();
 
+            if (type == ManikinType.VALENCE) {
+                manikin.setImageResource(VALENCE_MANIKINS[i-1]);
+            }
+
             params.width = size;
             params.height = size;
 
@@ -43,5 +60,12 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             manikin.requestLayout();
         }
     }
+
+    private ManikinType getManikinType(int value) {
+        if (value == 1) {
+            return ManikinType.VALENCE;
+        }
+
+        return ManikinType.AROUSAL;
     }
 }
