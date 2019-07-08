@@ -16,6 +16,11 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         AROUSAL, VALENCE
     }
 
+    @FunctionalInterface
+    public interface CallbackFunction {
+        void apply(int value);
+    }
+
     private final int[] VALENCE_MANIKINS = new int[] {
             R.drawable.ic_valence_1,
             R.drawable.ic_valence_2,
@@ -24,6 +29,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             R.drawable.ic_valence_5,
     };
 
+    private CallbackFunction callback = null;
     private int selectedValue = -1;
 
     public SelfAssessmentManikin(Context context) {
@@ -66,6 +72,10 @@ public class SelfAssessmentManikin extends ConstraintLayout {
 
                 this.selectedValue = index;
                 v.setAlpha(1);
+
+                if (this.callback != null) {
+                    this.callback.apply(index);
+                }
             });
 
             params.width = size;
@@ -74,6 +84,10 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             manikin.setLayoutParams(params);
             manikin.requestLayout();
         }
+    }
+
+    public void onValueSelected(CallbackFunction callback) {
+        this.callback = callback;
     }
 
     public int getSelectedValue() {
