@@ -72,6 +72,18 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         }
     }
 
+    public int getSelectedValue() {
+        for (int i=1; i<=5; i++) {
+            ImageView manikin = (ImageView) getChildAt(i);
+
+            if (manikin.getAlpha() == 1) {
+                return i-1;
+            }
+        }
+
+        return -1;
+    }
+
     private ManikinType getManikinType(int value) {
         if (value == 1) {
             return ManikinType.VALENCE;
