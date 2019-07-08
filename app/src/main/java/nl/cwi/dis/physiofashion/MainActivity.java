@@ -107,12 +107,18 @@ public class MainActivity extends AppCompatActivity {
         TextView externalConditionLabel = findViewById(R.id.external_condition_label);
         ExternalCondition externalCondition = experimentParser.getExternalCondition();
 
-        externalConditionLabel.setText(externalCondition.getLabel());
+        if (externalCondition != null) {
+            externalConditionLabel.setText(externalCondition.getLabel());
 
-        ArrayList<String> options = externalCondition.getOptions();
-        externalConditionToggle.setTextOff(options.get(0));
-        externalConditionToggle.setTextOn(options.get(1));
-        externalConditionToggle.setChecked(false);
+            ArrayList<String> options = externalCondition.getOptions();
+            externalConditionToggle.setTextOff(options.get(0));
+            externalConditionToggle.setTextOn(options.get(1));
+            externalConditionToggle.setChecked(false);
+        } else {
+            Log.d(LOG_TAG, "External condition not found, hiding elements");
+            externalConditionToggle.setVisibility(View.GONE);
+            externalConditionLabel.setVisibility(View.GONE);
+        }
 
         this.watchTextFieldChanges();
 
