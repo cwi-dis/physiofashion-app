@@ -144,8 +144,14 @@ public class ExperimentParser {
     }
 
     private ArrayList<String> sortExternalConditionOptions(String first) {
-        ArrayList<String> externalConditions = this.getExternalCondition().getOptions();
         ArrayList<String> result = new ArrayList<>();
+
+        if (this.getExternalCondition() == null) {
+            result.add("");
+            return result;
+        }
+
+        ArrayList<String> externalConditions = this.getExternalCondition().getOptions();
 
         result.add(first);
         result.addAll(externalConditions.stream().filter(x -> x.compareTo(first) != 0).collect(Collectors.toList()));

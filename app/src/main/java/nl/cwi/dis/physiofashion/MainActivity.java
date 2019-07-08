@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     experimentParser,
                     participantText.getText().toString().trim(),
                     counterBalance,
-                    externalConditionToggle.getText().toString()
+                    (externalCondition == null) ? null : externalConditionToggle.getText().toString()
             );
 
             String hostname = experimentParser.getHostname();

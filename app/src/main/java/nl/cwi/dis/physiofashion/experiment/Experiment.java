@@ -42,6 +42,7 @@ public class Experiment implements Parcelable {
     private double alignmentCorrection;
     private int breakDuration;
     private ArrayList<Integer> breakAfter;
+    private boolean hasExternalCondition;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -65,6 +66,8 @@ public class Experiment implements Parcelable {
         this.breakDuration = in.readInt();
         this.breakAfter = new ArrayList<>();
         in.readList(this.breakAfter, null);
+
+        this.hasExternalCondition = in.readInt() == 1;
     }
 
     public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
@@ -81,6 +84,7 @@ public class Experiment implements Parcelable {
         this.alignmentCorrection = experimentParser.getAlignmentCorrection();
         this.breakDuration = experimentParser.getPauseDuration();
         this.breakAfter = experimentParser.getPauseIndices();
+        this.hasExternalCondition = experimentParser.getExternalCondition() != null;
     }
 
     @Override
@@ -98,6 +102,7 @@ public class Experiment implements Parcelable {
         dest.writeDouble(alignmentCorrection);
         dest.writeInt(breakDuration);
         dest.writeList(breakAfter);
+        dest.writeInt(this.hasExternalCondition ? 1 : 0);
     }
 
     @Override
@@ -143,6 +148,10 @@ public class Experiment implements Parcelable {
     }
 
     public boolean shouldExternalConditionChange() {
+        if (!this.hasExternalCondition) {
+            return false;
+        }
+
         return this.getCurrentTrialIndex() == (this.getTrials().size() / 2);
     }
 
