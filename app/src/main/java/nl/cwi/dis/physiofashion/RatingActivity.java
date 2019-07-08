@@ -3,6 +3,7 @@ package nl.cwi.dis.physiofashion;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -20,15 +21,15 @@ public class RatingActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Experiment experiment = intent.getParcelableExtra("experiment");
 
-        final SeekBar temperatureSeekBar = findViewById(R.id.temperature_seek_bar);
-        final SeekBar comfortSeekBar = findViewById(R.id.comfort_seek_bar);
+        final LikertScale temperatureScale = findViewById(R.id.temperature_scale);
+        final LikertScale comfortScale = findViewById(R.id.comfort_scale);
         final Button ratingNextButton = findViewById(R.id.rating_next_button);
 
         ratingNextButton.setOnClickListener(v -> {
             UserResponse currentResponse = experiment.getCurrentUserResponse();
 
-            currentResponse.setTemperatureFelt(temperatureSeekBar.getProgress());
-            currentResponse.setComfortLevel(comfortSeekBar.getProgress());
+            currentResponse.setTemperatureFelt(temperatureScale.getProgress());
+            currentResponse.setComfortLevel(comfortScale.getProgress());
 
             experiment.incrementCurrentTrial();
             Trial nextTrial = experiment.getCurrentTrial();
