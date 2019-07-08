@@ -21,7 +21,8 @@
 
     <nl.cwi.dis.physiofashion.views.LikertScale
         android:id="@+id/temperature_scale"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.9"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         custom:title="@string/temperature_feel"
@@ -33,7 +34,8 @@
 
     <nl.cwi.dis.physiofashion.views.LikertScale
         android:id="@+id/comfort_scale"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.9"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         custom:title="@string/temperature_feel"

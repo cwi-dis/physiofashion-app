@@ -6,7 +6,8 @@
     <SeekBar
         android:id="@+id/comfort_seek_bar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="1"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
