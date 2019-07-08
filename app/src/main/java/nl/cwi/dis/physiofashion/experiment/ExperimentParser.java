@@ -84,11 +84,7 @@ public class ExperimentParser {
             }
         }
 
-        externalCondition.setLabel("Fabric");
-        externalCondition.addOption("on");
-        externalCondition.addOption("off");
-
-        return externalCondition;
+        return null;
     }
 
     public int getRepetitions() {
