@@ -61,8 +61,48 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_6"
         app:layout_constraintStart_toEndOf="@+id/manikin_4"
         app:layout_constraintTop_toTopOf="@+id/manikin_1"
         android:src="@drawable/ic_arousal_5" />
+
+    <ImageView
+        android:id="@+id/manikin_6"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_7"
+        app:layout_constraintStart_toEndOf="@+id/manikin_5"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
+        android:src="@drawable/ic_arousal_6" />
+
+    <ImageView
+        android:id="@+id/manikin_7"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_8"
+        app:layout_constraintStart_toEndOf="@+id/manikin_6"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
+        android:src="@drawable/ic_arousal_7" />
+
+    <ImageView
+        android:id="@+id/manikin_8"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_9"
+        app:layout_constraintStart_toEndOf="@+id/manikin_7"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
+        android:src="@drawable/ic_arousal_8" />
+
+    <ImageView
+        android:id="@+id/manikin_9"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/manikin_8"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
+        android:src="@drawable/ic_arousal_9" />
 </merge>
