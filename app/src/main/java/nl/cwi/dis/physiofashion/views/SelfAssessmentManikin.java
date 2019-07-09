@@ -54,7 +54,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         titleView.setText(title);
 
         for (int i=1; i<=5; i++) {
-            final int index = i;
+            final int value = i - 1;
 
             ImageView manikin = (ImageView) getChildAt(i);
             manikin.setAlpha(0.25f);
@@ -70,11 +70,11 @@ public class SelfAssessmentManikin extends ConstraintLayout {
                     otherManikin.setAlpha(0.25f);
                 }
 
-                this.selectedValue = index;
+                this.selectedValue = value;
                 v.setAlpha(1);
 
                 if (this.callback != null) {
-                    this.callback.apply(index);
+                    this.callback.apply(value);
                 }
             });
 
