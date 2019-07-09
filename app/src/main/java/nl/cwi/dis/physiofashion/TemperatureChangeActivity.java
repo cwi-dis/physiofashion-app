@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,6 +44,10 @@ public class TemperatureChangeActivity extends AppCompatActivity {
         feelItButton = findViewById(R.id.feel_it_button);
         tempChangeLabel = findViewById(R.id.temp_change_label);
         countdownLabel = findViewById(R.id.countdown_label);
+
+        if (experiment.getCurrentTrial().hasAudio()) {
+            feelItButton.setVisibility(View.INVISIBLE);
+        }
 
         String msg = getApplicationContext().getString(
                 R.string.trial_counter,
@@ -190,10 +195,15 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void pauseForStimulus() {
-        feelItButton.setEnabled(true);
-        tempChangeLabel.setText(R.string.wait_stimulus);
-
         Trial currentTrial = experiment.getCurrentTrial();
+        feelItButton.setEnabled(true);
+
+        if (!currentTrial.hasAudio()) {
+            tempChangeLabel.setText(R.string.wait_stimulus);
+        } else {
+            tempChangeLabel.setText(R.string.playing_audio);
+        }
+
         Log.d(LOG_TAG, "Pausing for stimulus for " + experiment.getStimulusPeriod() + " seconds");
 
         if (currentTrial.hasAudio()) {
@@ -231,6 +241,13 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     }
 
     private void waitForButtonPress() {
+        if (experiment.getCurrentTrial().hasAudio()) {
+            experiment.getCurrentUserResponse().setStimulusFelt(
+                    System.currentTimeMillis() / 1000.0
+            );
+            launchRatingActivity();
+        }
+
         if (feelItButtonPressed) {
             launchRatingActivity();
         } else {
