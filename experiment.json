@@ -11,76 +11,126 @@
     "pauseAfter": [11],
     "duration": 0
   },
-  "audioFiles": {
-    "positive": [
-      "positive_1.m4a", "positive_2.m4a", "positive_3.m4a",
-      "positive_4.m4a", "positive_5.m4a", "positive_6.m4a"
-    ],
-    "negative": [
-      "negative_1.m4a", "negative_2.m4a", "negative_3.m4a",
-      "negative_4.m4a", "negative_5.m4a", "negative_6.m4a"
-    ]
-  },
   "trials": [
     {
       "condition": "cool",
       "intensity": 3,
-      "audioType": "positive"
+      "audioFile": "positive_1.m4a"
     },
     {
       "condition": "warm",
       "intensity": 3,
-      "audioType": "positive"
+      "audioFile": "positive_1.m4a"
     },
     {
       "condition": "baseline",
       "intensity": 0,
-      "audioType": "positive"
+      "audioFile": "positive_1.m4a"
     },
     {
       "condition": "cool",
       "intensity": 3,
-      "audioType": "positive"
+      "audioFile": "positive_2.m4a"
     },
     {
       "condition": "warm",
       "intensity": 3,
-      "audioType": "positive"
+      "audioFile": "positive_2.m4a"
     },
     {
       "condition": "baseline",
       "intensity": 0,
-      "audioType": "positive"
+      "audioFile": "positive_2.m4a"
     },
     {
       "condition": "cool",
       "intensity": 3,
-      "audioType": "negative"
+      "audioFile": "positive_3.m4a"
     },
     {
       "condition": "warm",
       "intensity": 3,
-      "audioType": "negative"
+      "audioFile": "positive_3.m4a"
     },
     {
       "condition": "baseline",
       "intensity": 0,
-      "audioType": "negative"
+      "audioFile": "positive_3.m4a"
     },
     {
       "condition": "cool",
       "intensity": 3,
-      "audioType": "negative"
+      "audioFile": "positive_4.m4a"
     },
     {
       "condition": "warm",
       "intensity": 3,
-      "audioType": "negative"
+      "audioFile": "positive_4.m4a"
     },
     {
       "condition": "baseline",
       "intensity": 0,
-      "audioType": "negative"
+      "audioFile": "positive_4.m4a"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioFile": "negative_1.m4a"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioFile": "negative_1.m4a"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioFile": "negative_1.m4a"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioFile": "negative_2.m4a"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioFile": "negative_2.m4a"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioFile": "negative_2.m4a"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioFile": "negative_3.m4a"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioFile": "negative_3.m4a"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioFile": "negative_3.m4a"
+    },
+    {
+      "condition": "cool",
+      "intensity": 3,
+      "audioFile": "negative_4.m4a"
+    },
+    {
+      "condition": "warm",
+      "intensity": 3,
+      "audioFile": "negative_4.m4a"
+    },
+    {
+      "condition": "baseline",
+      "intensity": 0,
+      "audioFile": "negative_4.m4a"
     }
   ]
 }
