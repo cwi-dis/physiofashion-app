@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.9"
         app:manikinType="AROUSAL"
-        app:size="48dp"
+        app:size="36dp"
         app:title="@string/rate_arousal" />
 
     <nl.cwi.dis.physiofashion.views.SelfAssessmentManikin
@@ -47,7 +47,7 @@
         app:layout_constraintWidth_percent="0.9"
         app:defaultValue="2"
         app:manikinType="VALENCE"
-        app:size="48dp"
+        app:size="36dp"
         app:title="@string/rate_valence" />
 
 </android.support.constraint.ConstraintLayout>
