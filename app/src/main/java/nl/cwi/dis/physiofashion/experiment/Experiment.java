@@ -43,6 +43,7 @@ public class Experiment implements Parcelable {
     private int breakDuration;
     private ArrayList<Integer> breakAfter;
     private boolean hasExternalCondition;
+    private String questionType;
 
     private Experiment(Parcel in) {
         this.trials = new ArrayList<>();
@@ -68,6 +69,7 @@ public class Experiment implements Parcelable {
         in.readList(this.breakAfter, null);
 
         this.hasExternalCondition = in.readInt() == 1;
+        this.questionType = in.readString();
     }
 
     public Experiment(ExperimentParser experimentParser, String participantId, int counterBalance, String externalCondition) {
@@ -85,6 +87,7 @@ public class Experiment implements Parcelable {
         this.breakDuration = experimentParser.getPauseDuration();
         this.breakAfter = experimentParser.getPauseIndices();
         this.hasExternalCondition = experimentParser.getExternalCondition() != null;
+        this.questionType = experimentParser.getQuestionType();
     }
 
     @Override
@@ -102,7 +105,8 @@ public class Experiment implements Parcelable {
         dest.writeDouble(alignmentCorrection);
         dest.writeInt(breakDuration);
         dest.writeList(breakAfter);
-        dest.writeInt(this.hasExternalCondition ? 1 : 0);
+        dest.writeInt(hasExternalCondition ? 1 : 0);
+        dest.writeString(questionType);
     }
 
     @Override
@@ -189,6 +193,10 @@ public class Experiment implements Parcelable {
 
     public double getAlignmentCorrection() {
         return alignmentCorrection;
+    }
+
+    public String getQuestionType() {
+        return questionType;
     }
 
     public void writeResponsesToFile(File targetDir) {

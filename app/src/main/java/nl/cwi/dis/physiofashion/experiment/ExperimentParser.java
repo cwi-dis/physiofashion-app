@@ -97,6 +97,14 @@ public class ExperimentParser {
         return repetitions;
     }
 
+    public String getQuestionType() {
+        try {
+            return experiment.getString("questionType");
+        } catch (JSONException je) {
+            return "likert";
+        }
+    }
+
     public int getPauseDuration() {
         try {
             JSONObject pauses = experiment.getJSONObject("pauses");
