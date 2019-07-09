@@ -27,6 +27,10 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             R.drawable.ic_valence_3,
             R.drawable.ic_valence_4,
             R.drawable.ic_valence_5,
+            R.drawable.ic_valence_6,
+            R.drawable.ic_valence_7,
+            R.drawable.ic_valence_8,
+            R.drawable.ic_valence_9,
     };
 
     private CallbackFunction callback = null;
@@ -54,7 +58,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         TextView titleView = (TextView) getChildAt(0);
         titleView.setText(title);
 
-        for (int i=1; i<=5; i++) {
+        for (int i=1; i<=9; i++) {
             final int value = i - 1;
 
             ImageView manikin = (ImageView) getChildAt(i);
