@@ -8,7 +8,7 @@
   "repetitions": 2,
   "questionType": "manikin",
   "pauses": {
-    "breakAfter": [11],
+    "pauseAfter": [11],
     "duration": 0
   },
   "audioFiles": {
