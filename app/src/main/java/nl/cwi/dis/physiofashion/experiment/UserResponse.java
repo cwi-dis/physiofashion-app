@@ -20,12 +20,16 @@ public class UserResponse implements Parcelable {
     private double stimulusFelt;
     private int temperatureFelt;
     private int comfortLevel;
+    private int arousal;
+    private int valence;
 
     private UserResponse(Parcel in) {
         this.stimulusStarted = in.readDouble();
         this.stimulusFelt = in.readDouble();
         this.temperatureFelt = in.readInt();
         this.comfortLevel = in.readInt();
+        this.arousal = in.readInt();
+        this.valence = in.readInt();
     }
 
     public UserResponse() {
@@ -37,6 +41,8 @@ public class UserResponse implements Parcelable {
         dest.writeDouble(stimulusFelt);
         dest.writeInt(temperatureFelt);
         dest.writeInt(comfortLevel);
+        dest.writeInt(arousal);
+        dest.writeInt(valence);
     }
 
     @Override
@@ -74,5 +80,21 @@ public class UserResponse implements Parcelable {
 
     public void setComfortLevel(int comfortLevel) {
         this.comfortLevel = comfortLevel;
+    }
+
+    public int getArousal() {
+        return arousal;
+    }
+
+    public void setArousal(int arousal) {
+        this.arousal = arousal;
+    }
+
+    public int getValence() {
+        return valence;
+    }
+
+    public void setValence(int valence) {
+        this.valence = valence;
     }
 }
