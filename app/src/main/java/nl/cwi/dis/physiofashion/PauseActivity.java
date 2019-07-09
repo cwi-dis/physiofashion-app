@@ -25,7 +25,7 @@ public class PauseActivity extends AppCompatActivity {
         final TextView waitLabel = findViewById(R.id.wait_message);
         final Button continueButton = findViewById(R.id.continue_button);
 
-        if (noCountdown) {
+        if (noCountdown || experiment.getBreakDuration() == 0) {
             continueButton.setEnabled(true);
             waitLabel.setText(R.string.pause);
         } else {
