@@ -14,10 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ManikinRatingActivity"></activity>
         <activity android:name=".PauseActivity" />
         <activity android:name=".EndingActivity" />
         <activity android:name=".RatingActivity" />
-        <activity android:name=".TemperatureChangeActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".TemperatureChangeActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
