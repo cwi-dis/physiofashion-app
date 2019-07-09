@@ -250,9 +250,15 @@ public class TemperatureChangeActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "Could not return to baseline temperature: " + error)
         );
 
-        Intent ratingIntent = new Intent(this, RatingActivity.class);
-        ratingIntent.putExtra("experiment", experiment);
+        Intent ratingIntent;
 
+        if (experiment.getQuestionType().compareTo("likert") == 0) {
+            ratingIntent = new Intent(this, RatingActivity.class);
+        } else {
+            ratingIntent = new Intent(this, ManikinRatingActivity.class);
+        }
+
+        ratingIntent.putExtra("experiment", experiment);
         startActivity(ratingIntent);
     }
 
