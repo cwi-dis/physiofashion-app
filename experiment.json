@@ -6,6 +6,11 @@
   "adaptationLength": 5,
   "stimulusLength": 4,
   "repetitions": 2,
+  "questionType": "manikin",
+  "pauses": {
+    "breakAfter": [11],
+    "duration": 0
+  },
   "audioFiles": {
     "positive": [
       "positive_1.m4a", "positive_2.m4a", "positive_3.m4a",
