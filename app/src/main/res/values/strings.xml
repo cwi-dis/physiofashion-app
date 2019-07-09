@@ -33,6 +33,6 @@
     <string name="pause_countdown">Take a break while the timer is counting down</string>
     <string name="pause">Change external condition. Hit the button below once you are ready to continue</string>
 
-    <string name="rate_arousal">How would you rate the arousal that you felt?</string>
-    <string name="rate_valence">How would you rate the valence of what you felt?</string>
+    <string name="rate_arousal">Please rate the arousal of this message</string>
+    <string name="rate_valence">Please rate the valence of this message</string>
 </resources>
