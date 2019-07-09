@@ -206,7 +206,7 @@ public class Experiment implements Parcelable {
 
             return String.format(
                     Locale.ENGLISH,
-                    "%d,\"%s\",\"%s\",%d,\"%s\",\"%s\",%.2f,%.2f,%d,%d\n",
+                    "%d,\"%s\",\"%s\",%d,\"%s\",\"%s\",%.2f,%.2f,%d,%d,%d,%d\n",
                     i + 1,
                     this.participantId,
                     trial.getCondition(),
@@ -216,12 +216,14 @@ public class Experiment implements Parcelable {
                     response.getStimulusStarted(),
                     response.getStimulusFelt(),
                     response.getTemperatureFelt(),
-                    response.getComfortLevel()
+                    response.getComfortLevel(),
+                    response.getArousal(),
+                    response.getValence()
             );
         }).collect(Collectors.toCollection(ArrayList::new));
 
         String filename = this.participantId + ".csv";
-        String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"externalCondition\",\"audioFile\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\"\n";
+        String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"externalCondition\",\"audioFile\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\",\"arousal\",\"valence\"\n";
 
         Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + File.separator + filename);
 
