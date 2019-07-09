@@ -48,6 +48,6 @@
         app:defaultValue="2"
         app:manikinType="VALENCE"
         app:size="48dp"
-        app:title="@string/rate_arousal" />
+        app:title="@string/rate_valence" />
 
 </android.support.constraint.ConstraintLayout>
