@@ -28,7 +28,7 @@ public class ManikinRatingActivity extends AppCompatActivity {
             UserResponse currentResponse = experiment.getCurrentUserResponse();
 
             currentResponse.setArousal(arousalScale.getSelectedValue());
-            currentResponse.setComfortLevel(valenceScale.getSelectedValue());
+            currentResponse.setValence(valenceScale.getSelectedValue());
 
             experiment.incrementCurrentTrial();
             Trial nextTrial = experiment.getCurrentTrial();
