@@ -13,6 +13,7 @@
     <declare-styleable name="SelfAssessmentManikin">
         <attr name="title" />
         <attr name="size" format="dimension" />
+        <attr name="defaultValue" format="integer" />
         <attr name="manikinType">
             <flag name="AROUSAL" value="0" />
             <flag name="VALENCE" value="1" />

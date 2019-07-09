@@ -47,6 +47,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         String title = attrs.getString(R.styleable.SelfAssessmentManikin_title);
         int size = attrs.getDimensionPixelSize(R.styleable.SelfAssessmentManikin_size, 0);
         ManikinType type = getManikinType(attrs.getInt(R.styleable.SelfAssessmentManikin_manikinType,0));
+        int defaultValue = attrs.getInt(R.styleable.SelfAssessmentManikin_defaultValue, -1);
 
         attrs.recycle();
 
@@ -57,8 +58,14 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             final int value = i - 1;
 
             ImageView manikin = (ImageView) getChildAt(i);
-            manikin.setAlpha(0.25f);
             ViewGroup.LayoutParams params = manikin.getLayoutParams();
+
+            if (value == defaultValue) {
+                manikin.setAlpha(1.0f);
+                this.selectedValue = value;
+            } else {
+                manikin.setAlpha(0.25f);
+            }
 
             if (type == ManikinType.VALENCE) {
                 manikin.setImageResource(VALENCE_MANIKINS[i-1]);
