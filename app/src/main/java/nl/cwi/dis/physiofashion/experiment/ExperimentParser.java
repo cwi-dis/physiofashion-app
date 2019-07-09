@@ -134,23 +134,6 @@ public class ExperimentParser {
         return pauseIndices;
     }
 
-    public ArrayList<String> getAudioFiles(String type) {
-        ArrayList<String> result = new ArrayList<>();
-
-        try {
-            JSONObject audioFiles = experiment.getJSONObject("audioFiles");
-            JSONArray filesOfType = audioFiles.getJSONArray(type);
-
-            for (int i=0; i<filesOfType.length(); i++) {
-                result.add(filesOfType.getString(i));
-            }
-        } catch (JSONException je) {
-            return new ArrayList<>();
-        }
-
-        return result;
-    }
-
     private ArrayList<String> sortExternalConditionOptions(String first) {
         ArrayList<String> result = new ArrayList<>();
 
@@ -172,31 +155,14 @@ public class ExperimentParser {
             JSONArray trials = experiment.getJSONArray("trials");
             ArrayList<Trial> finalList = new ArrayList<>();
 
-            ArrayList<String> positiveMessages = this.getAudioFiles("positive");
-            ArrayList<String> negativeMessages = this.getAudioFiles("negative");
-
-            Collections.shuffle(positiveMessages);
-            Collections.shuffle(negativeMessages);
-
             for (String externalCondition : this.sortExternalConditionOptions(firstExternalCondition)) {
                 ArrayList<Trial> initialTrials = new ArrayList<>(trials.length());
 
                 for (int i = 0; i < trials.length(); i++) {
                     JSONObject trialObject = (JSONObject) trials.get(i);
 
-                    String audioType = trialObject.optString("audioType", null);
-                    String audioFile = null;
-
-                    if (audioType != null) {
-                        if (audioType.compareTo("positive") == 0) {
-                            audioFile = positiveMessages.remove(0);
-                        } else if (audioType.compareTo("negative") == 0) {
-                            audioFile = negativeMessages.remove(0);
-                        }
-                    }
-
                     initialTrials.add(new Trial(
-                            audioFile,
+                            trialObject.optString("audioFile", null),
                             trialObject.getString("condition"),
                             trialObject.optInt("intensity", 0),
                             externalCondition
