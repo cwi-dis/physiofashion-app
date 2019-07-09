@@ -17,52 +17,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/arousal_1"
+        android:id="@+id/manikin_1"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/arousal_2"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView4"
         android:src="@drawable/ic_arousal_1" />
 
     <ImageView
-        android:id="@+id/arousal_2"
+        android:id="@+id/manikin_2"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintEnd_toStartOf="@+id/arousal_3"
-        app:layout_constraintStart_toEndOf="@+id/arousal_1"
-        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_3"
+        app:layout_constraintStart_toEndOf="@+id/manikin_1"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
         android:src="@drawable/ic_arousal_2" />
 
     <ImageView
-        android:id="@+id/arousal_3"
+        android:id="@+id/manikin_3"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintEnd_toStartOf="@+id/arousal_4"
-        app:layout_constraintStart_toEndOf="@+id/arousal_2"
-        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_4"
+        app:layout_constraintStart_toEndOf="@+id/manikin_2"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
         android:src="@drawable/ic_arousal_3" />
 
     <ImageView
-        android:id="@+id/arousal_4"
+        android:id="@+id/manikin_4"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintEnd_toStartOf="@+id/arousal_5"
-        app:layout_constraintStart_toEndOf="@+id/arousal_3"
-        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        app:layout_constraintEnd_toStartOf="@+id/manikin_5"
+        app:layout_constraintStart_toEndOf="@+id/manikin_3"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
         android:src="@drawable/ic_arousal_4" />
 
     <ImageView
-        android:id="@+id/arousal_5"
+        android:id="@+id/manikin_5"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/arousal_4"
-        app:layout_constraintTop_toTopOf="@+id/arousal_1"
+        app:layout_constraintStart_toEndOf="@+id/manikin_4"
+        app:layout_constraintTop_toTopOf="@+id/manikin_1"
         android:src="@drawable/ic_arousal_5" />
 </merge>
