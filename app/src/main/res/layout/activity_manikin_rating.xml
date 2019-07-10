@@ -30,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.9"
         app:manikinType="VALENCE"
+        app:defaultValue="4"
         app:size="44dp"
         app:title="@string/rate_valence" />
 
@@ -45,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/manikin_valence"
         app:layout_constraintWidth_percent="0.9"
         app:manikinType="AROUSAL"
+        app:defaultValue="4"
         app:size="44dp"
         app:title="@string/rate_arousal" />
 
