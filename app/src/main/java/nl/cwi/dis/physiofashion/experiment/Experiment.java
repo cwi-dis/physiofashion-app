@@ -199,7 +199,7 @@ public class Experiment implements Parcelable {
         return questionType;
     }
 
-    public void writeResponsesToFile(File targetDir) {
+    public String writeResponsesToFile(File targetDir) {
         ArrayList<String> lines = IntStream.range(0, this.trials.size()).mapToObj(i -> {
             Trial trial = this.trials.get(i);
             UserResponse response = this.responses.get(i);
@@ -227,7 +227,7 @@ public class Experiment implements Parcelable {
 
         Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + File.separator + filename);
 
-        this.writeDataToFile(
+        return this.writeDataToFile(
                 filename,
                 targetDir,
                 header,
@@ -250,9 +250,9 @@ public class Experiment implements Parcelable {
         }
     }
 
-    private void writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
+    private String writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
         if (lines.size() == 0) {
-            return;
+            return null;
         }
 
         filename = this.getNewFilename(filename, targetDir);
@@ -263,10 +263,14 @@ public class Experiment implements Parcelable {
             for (String line : lines) {
                 fileOutputStream.write(line.getBytes());
             }
+
+            return targetDir + File.separator + filename;
         } catch (FileNotFoundException fnf) {
             Log.e(LOG_TAG, "File " + filename + " not found: " + fnf);
+            return null;
         } catch (IOException ioe) {
             Log.e(LOG_TAG, "File " + filename + " IO Exception: " + ioe);
+            return null;
         }
     }
 }
