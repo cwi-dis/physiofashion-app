@@ -76,7 +76,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
             }
 
             manikin.setOnClickListener(v -> {
-                for (int j=1; j<=5; j++) {
+                for (int j=1; j<=9; j++) {
                     ImageView otherManikin = (ImageView) getChildAt(j);
                     otherManikin.setAlpha(0.25f);
                 }
@@ -89,7 +89,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
                 }
             });
 
-            params.width = size;
+            params.width = (int)Math.floor(size * (100 / 107.0));
             params.height = size;
 
             manikin.setLayoutParams(params);
