@@ -16,22 +16,7 @@
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manikin_valence" />
-
-    <nl.cwi.dis.physiofashion.views.SelfAssessmentManikin
-        android:id="@+id/manikin_arousal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:manikinType="AROUSAL"
-        app:size="44dp"
-        app:title="@string/rate_arousal" />
+        app:layout_constraintTop_toBottomOf="@+id/manikin_arousal" />
 
     <nl.cwi.dis.physiofashion.views.SelfAssessmentManikin
         android:id="@+id/manikin_valence"
@@ -42,10 +27,25 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manikin_arousal"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.9"
         app:manikinType="VALENCE"
         app:size="44dp"
         app:title="@string/rate_valence" />
+
+    <nl.cwi.dis.physiofashion.views.SelfAssessmentManikin
+        android:id="@+id/manikin_arousal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manikin_valence"
+        app:layout_constraintWidth_percent="0.9"
+        app:manikinType="AROUSAL"
+        app:size="44dp"
+        app:title="@string/rate_arousal" />
 
 </android.support.constraint.ConstraintLayout>
