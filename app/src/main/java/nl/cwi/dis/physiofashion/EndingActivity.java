@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +28,13 @@ public class EndingActivity extends AppCompatActivity {
         this.logResponses(experiment.getResponses());
 
         File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        experiment.writeResponsesToFile(downloadDir);
+        String savePath = experiment.writeResponsesToFile(downloadDir);
+
+        if (savePath != null) {
+            Toast.makeText(this, "File successfully written: " + savePath, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Could not save experiment file", Toast.LENGTH_LONG).show();
+        }
 
         final Button returnToStart = findViewById(R.id.return_to_start);
         returnToStart.setOnClickListener(v -> {
