@@ -21,7 +21,7 @@ public class SelfAssessmentManikin extends ConstraintLayout {
         void apply(int value);
     }
 
-    private final int[] VALENCE_MANIKINS = new int[] {
+    private static final int[] VALENCE_MANIKINS = new int[] {
             R.drawable.ic_valence_1,
             R.drawable.ic_valence_2,
             R.drawable.ic_valence_3,
