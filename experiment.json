@@ -5,7 +5,7 @@
   "baselineTemperature": 32,
   "adaptationLength": 5,
   "stimulusLength": 4,
-  "repetitions": 2,
+  "repetitions": 1,
   "questionType": "manikin",
   "pauses": {
     "pauseAfter": [11],
