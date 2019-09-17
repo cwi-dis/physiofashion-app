@@ -39,7 +39,7 @@ public class TemperatureChangeActivity extends AppCompatActivity {
     private boolean feelItButtonPressed;
 
     /**
-     * Sets up the UI and installs events handlers to UI elements.
+     * Sets up the UI and installs events handlers for UI elements.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
