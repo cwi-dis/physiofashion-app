@@ -224,13 +224,13 @@ public class Experiment implements Parcelable {
 
         String filename = this.participantId + ".csv";
         String header = "\"trialNum\",\"participant\",\"condition\",\"intensity\",\"externalCondition\",\"audioFile\",\"stimulusStarted\",\"stimulusFelt\",\"temperatureFelt\",\"comfortLevel\",\"arousal\",\"valence\"\n";
+        lines.add(0, header);
 
         Log.d(LOG_TAG, "Attempting to write responses to file: " + targetDir.getAbsolutePath() + File.separator + filename);
 
         return this.writeDataToFile(
                 filename,
                 targetDir,
-                header,
                 lines
         );
     }
@@ -250,7 +250,7 @@ public class Experiment implements Parcelable {
         }
     }
 
-    private String writeDataToFile(String filename, File targetDir, String header, ArrayList<String> lines) {
+    private String writeDataToFile(String filename, File targetDir, ArrayList<String> lines) {
         if (lines.size() == 0) {
             return null;
         }
@@ -258,8 +258,6 @@ public class Experiment implements Parcelable {
         filename = this.getNewFilename(filename, targetDir);
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(new File(targetDir, filename))) {
-            fileOutputStream.write(header.getBytes());
-
             for (String line : lines) {
                 fileOutputStream.write(line.getBytes());
             }
